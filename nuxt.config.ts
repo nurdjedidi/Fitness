@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     transpile: ['vuetify'],
   },
   app: {
+    baseURL: '/portfolio/',
     head: {
       htmlAttrs: {
         lang: 'en', 
