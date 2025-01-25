@@ -27,7 +27,7 @@ const users = defineEventHandler(async (event) => {
     );
     return { success: true, message: "User created successfully" };
   } catch (error) {
-    return { error: error.message };
+    console.log(error.message, error.stack);
   } finally {
     connection.end();
   }
