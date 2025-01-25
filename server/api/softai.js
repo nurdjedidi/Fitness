@@ -10,11 +10,15 @@ export default defineEventHandler(async (event) => {
       model: 'gpt-4o',
       store: true, 
       messages: [
-        { role: 'user', content: 'write a code' },
-      ],
+        { role: "developer", content: "You are a helpful assistant." },
+        {
+            role: "user",
+            content: "Write my code that i said.",
+        },
+    ],
     });
 
-    console.log(completion)
+    console.log(completion.choices[0].message);
 
     return {
       statusCode: 200,
