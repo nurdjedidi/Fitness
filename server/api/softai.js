@@ -13,6 +13,8 @@ export default defineEventHandler(async (event) => {
       ],
     });
 
+    console.log(completion)
+
     return {
       statusCode: 200,
       body: {

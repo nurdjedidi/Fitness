@@ -50,6 +50,7 @@
     if (response.ok) {
       const data = await response.json();
       snippet.value = data.message || 'No snippet generated'; 
+      console.log(data)
     } else {
       console.error('Error:', response.statusText);
       snippet.value = 'Error generating snippet.';

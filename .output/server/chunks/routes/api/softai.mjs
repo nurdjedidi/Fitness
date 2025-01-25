@@ -17,6 +17,7 @@ const softai = defineEventHandler(async (event) => {
         { role: "user", content: "write a code" }
       ]
     });
+    console.log(completion);
     return {
       statusCode: 200,
       body: {

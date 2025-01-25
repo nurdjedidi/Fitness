@@ -591,7 +591,7 @@ const _routes = [
   {
     name: "softai",
     path: "/softai",
-    component: () => import('./softai-CnSGpv_i.mjs')
+    component: () => import('./softai-DOaoNy_e.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
