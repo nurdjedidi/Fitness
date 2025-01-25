@@ -47,7 +47,7 @@ const signIn = async () => {
       }),
     });
 
-    window.location.href = '/';
+    window.location.href = '/softai';
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

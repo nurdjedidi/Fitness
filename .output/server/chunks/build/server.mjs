@@ -574,24 +574,24 @@ function handleHotUpdate(_router, _generateRoutes) {
 }
 const _routes = [
   {
-    name: "confirm",
-    path: "/confirm",
-    component: () => import('./confirm-CNWsLSle.mjs')
-  },
-  {
     name: "index",
     path: "/",
-    component: () => import('./index-BicFVG-w.mjs')
+    component: () => import('./index-oJq-3u-0.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-c3rf9iQ7.mjs')
+    component: () => import('./login-pWrRTBg2.mjs')
   },
   {
     name: "signup",
     path: "/signup",
-    component: () => import('./signup-C3CcABCg.mjs')
+    component: () => import('./signup-DT4IGMzU.mjs')
+  },
+  {
+    name: "softai",
+    path: "/softai",
+    component: () => import('./softai-CF9pzpX2.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -3664,8 +3664,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = undefined;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-CqKakS0D.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-BghbsiOs.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-CPwfNKg5.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-0xptOmR5.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -3746,5 +3746,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { parseColor as A, getForeground as B, getCurrentInstanceName as C, deepEqual as D, wrapInArray as E, consoleWarn as F, useIcon as G, flattenFragments as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, EventProp as M, useLocale as N, isOn as O, pick as P, only as Q, filterInputAttrs as R, callEvent as S, resolveRouteObject as a, navigateTo as b, useNuxtApp as c, useRuntimeConfig as d, entry$1 as default, getCurrentInstance as e, convertToUnit as f, getUid as g, findChildrenWithProvide as h, injectHead as i, genericComponent as j, provideTheme as k, useRtl as l, makeThemeProps as m, nuxtLinkDefaults as n, provideDefaults as o, propsFactory as p, clamp as q, resolveUnrefHeadInput as r, useProxiedModel as s, useToggleScope as t, useRouter as u, includes as v, templateRef as w, destructComputed as x, isCssColor as y, isParsableColor as z };
+export { parseColor as A, getForeground as B, getCurrentInstanceName as C, deepEqual as D, wrapInArray as E, consoleWarn as F, useIcon as G, flattenFragments as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, filterInputAttrs as M, callEvent as N, EventProp as O, useLocale as P, isOn as Q, pick as R, only as S, navigateTo as a, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, provideTheme as e, useRtl as f, genericComponent as g, provideDefaults as h, injectHead as i, convertToUnit as j, clamp as k, useProxiedModel as l, makeThemeProps as m, nuxtLinkDefaults as n, useToggleScope as o, propsFactory as p, getUid as q, resolveRouteObject as r, getCurrentInstance as s, findChildrenWithProvide as t, useRouter as u, includes as v, templateRef as w, destructComputed as x, isCssColor as y, isParsableColor as z };
 //# sourceMappingURL=server.mjs.map

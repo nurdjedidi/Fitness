@@ -4,9 +4,15 @@
         <v-app-bar-title class="logo d-flex align-center ml-3">
            SoftAI
         </v-app-bar-title>
+        <template v-slot:prepend>
+          <v-app-bar-nav-icon icon="mdi-lightbulb-on-outline"></v-app-bar-nav-icon>
+        </template>
         <v-spacer></v-spacer>
         <NuxtLink to="/login">
           <v-btn color="primary" class="login-btn" variant="outlined">Login</v-btn>
+        </NuxtLink>
+        <NuxtLink to="/signup">
+          <v-btn color="primary" class="signup-btn" variant="outlined">Sign Up</v-btn>
         </NuxtLink>
     </v-app-bar>
     <section class="intro-img">
@@ -51,7 +57,7 @@
   padding: 0 16px; 
 }
 
-.login-btn {
+.login-btn, .signup-btn {
   font-weight: 600;
   margin-right: 15px;
 }
