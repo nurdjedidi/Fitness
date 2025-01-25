@@ -31,7 +31,7 @@ const _sfc_main = {
     const signIn = async () => {
       loading.value = true;
       const response = await fetch("api/login", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
@@ -410,4 +410,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=login-DC1wwjaZ.mjs.map
+//# sourceMappingURL=login-ARIdxsr5.mjs.map
