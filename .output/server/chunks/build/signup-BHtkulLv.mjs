@@ -36,8 +36,8 @@ const _sfc_main = {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email: email.value,
-          password: password.value
+          email: form.value.email,
+          password: form.value.password
         })
       });
       if (!response.ok) {
@@ -410,4 +410,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=signup-DyoMCOyj.mjs.map
+//# sourceMappingURL=signup-BHtkulLv.mjs.map

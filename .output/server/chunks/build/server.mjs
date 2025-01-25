@@ -591,7 +591,7 @@ const _routes = [
   {
     name: "signup",
     path: "/signup",
-    component: () => import('./signup-DyoMCOyj.mjs')
+    component: () => import('./signup-BHtkulLv.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
