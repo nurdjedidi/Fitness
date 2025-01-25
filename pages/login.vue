@@ -48,7 +48,7 @@ const togglePasswordVisibility = () => {
 <style>
 .intro-img {
   position: relative;
-  background: url('portfolio/images/city.jpg') center/cover no-repeat;
+  background: url('images/city.jpg') center/cover no-repeat;
   height: 100vh;
   display: flex;
   align-items: center;

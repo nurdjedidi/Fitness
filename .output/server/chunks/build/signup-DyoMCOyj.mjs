@@ -19,7 +19,7 @@ import '@unhead/shared';
 import 'vue-router';
 
 const _sfc_main = {
-  __name: "login",
+  __name: "signup",
   __ssrInlineRender: true,
   setup(__props) {
     const form = ref({
@@ -28,9 +28,25 @@ const _sfc_main = {
     });
     const loading = ref(false);
     const showPassword = ref(false);
-    const signIn = async () => {
+    const signUp = async () => {
       loading.value = true;
-      errorMessage.value = "";
+      const response = await fetch("api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value
+        })
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.error) {
+        error.value = data.error;
+      }
       loading.value = false;
     };
     const togglePasswordVisibility = () => {
@@ -56,10 +72,10 @@ const _sfc_main = {
                   _push3(ssrRenderComponent(VCardTitle, { class: "text-h5 font-weight-bold text-center mb-4" }, {
                     default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(`Sign In to Your Account`);
+                        _push4(`Sign Up to create an Account`);
                       } else {
                         return [
-                          createTextVNode("Sign In to Your Account")
+                          createTextVNode("Sign Up to create an Account")
                         ];
                       }
                     }),
@@ -67,7 +83,7 @@ const _sfc_main = {
                   }, _parent3, _scopeId2));
                   _push3(ssrRenderComponent(VForm, {
                     class: "d-flex flex-column",
-                    onSubmit: signIn
+                    onSubmit: signUp
                   }, {
                     default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
@@ -127,15 +143,15 @@ const _sfc_main = {
                           _: 1
                         }, _parent4, _scopeId3));
                         _push4(ssrRenderComponent(_component_NuxtLink, {
-                          class: "signup-link mb-6",
-                          to: "/signup"
+                          class: "signIn-link mb-6",
+                          to: "/login"
                         }, {
                           default: withCtx((_4, _push5, _parent5, _scopeId4) => {
                             if (_push5) {
-                              _push5(`Don&#39;t have an account?`);
+                              _push5(`Already have an account?`);
                             } else {
                               return [
-                                createTextVNode("Don't have an account?")
+                                createTextVNode("Already have an account?")
                               ];
                             }
                           }),
@@ -145,14 +161,14 @@ const _sfc_main = {
                           class: "submit-btn",
                           type: "submit",
                           loading: loading.value,
-                          "aria-label": "Sign In"
+                          "aria-label": "Sign Up"
                         }, {
                           default: withCtx((_4, _push5, _parent5, _scopeId4) => {
                             if (_push5) {
-                              _push5(` Sign In `);
+                              _push5(` Sign Up `);
                             } else {
                               return [
-                                createTextVNode(" Sign In ")
+                                createTextVNode(" Sign Up ")
                               ];
                             }
                           }),
@@ -196,11 +212,11 @@ const _sfc_main = {
                             _: 1
                           }, 8, ["modelValue", "onUpdate:modelValue", "type"]),
                           createVNode(_component_NuxtLink, {
-                            class: "signup-link mb-6",
-                            to: "/signup"
+                            class: "signIn-link mb-6",
+                            to: "/login"
                           }, {
                             default: withCtx(() => [
-                              createTextVNode("Don't have an account?")
+                              createTextVNode("Already have an account?")
                             ]),
                             _: 1
                           }),
@@ -208,10 +224,10 @@ const _sfc_main = {
                             class: "submit-btn",
                             type: "submit",
                             loading: loading.value,
-                            "aria-label": "Sign In"
+                            "aria-label": "Sign Up"
                           }, {
                             default: withCtx(() => [
-                              createTextVNode(" Sign In ")
+                              createTextVNode(" Sign Up ")
                             ]),
                             _: 1
                           }, 8, ["loading"])
@@ -224,13 +240,13 @@ const _sfc_main = {
                   return [
                     createVNode(VCardTitle, { class: "text-h5 font-weight-bold text-center mb-4" }, {
                       default: withCtx(() => [
-                        createTextVNode("Sign In to Your Account")
+                        createTextVNode("Sign Up to create an Account")
                       ]),
                       _: 1
                     }),
                     createVNode(VForm, {
                       class: "d-flex flex-column",
-                      onSubmit: withModifiers(signIn, ["prevent"])
+                      onSubmit: withModifiers(signUp, ["prevent"])
                     }, {
                       default: withCtx(() => [
                         createVNode(VTextField, {
@@ -269,11 +285,11 @@ const _sfc_main = {
                           _: 1
                         }, 8, ["modelValue", "onUpdate:modelValue", "type"]),
                         createVNode(_component_NuxtLink, {
-                          class: "signup-link mb-6",
-                          to: "/signup"
+                          class: "signIn-link mb-6",
+                          to: "/login"
                         }, {
                           default: withCtx(() => [
-                            createTextVNode("Don't have an account?")
+                            createTextVNode("Already have an account?")
                           ]),
                           _: 1
                         }),
@@ -281,10 +297,10 @@ const _sfc_main = {
                           class: "submit-btn",
                           type: "submit",
                           loading: loading.value,
-                          "aria-label": "Sign In"
+                          "aria-label": "Sign Up"
                         }, {
                           default: withCtx(() => [
-                            createTextVNode(" Sign In ")
+                            createTextVNode(" Sign Up ")
                           ]),
                           _: 1
                         }, 8, ["loading"])
@@ -307,13 +323,13 @@ const _sfc_main = {
                 default: withCtx(() => [
                   createVNode(VCardTitle, { class: "text-h5 font-weight-bold text-center mb-4" }, {
                     default: withCtx(() => [
-                      createTextVNode("Sign In to Your Account")
+                      createTextVNode("Sign Up to create an Account")
                     ]),
                     _: 1
                   }),
                   createVNode(VForm, {
                     class: "d-flex flex-column",
-                    onSubmit: withModifiers(signIn, ["prevent"])
+                    onSubmit: withModifiers(signUp, ["prevent"])
                   }, {
                     default: withCtx(() => [
                       createVNode(VTextField, {
@@ -352,11 +368,11 @@ const _sfc_main = {
                         _: 1
                       }, 8, ["modelValue", "onUpdate:modelValue", "type"]),
                       createVNode(_component_NuxtLink, {
-                        class: "signup-link mb-6",
-                        to: "/signup"
+                        class: "signIn-link mb-6",
+                        to: "/login"
                       }, {
                         default: withCtx(() => [
-                          createTextVNode("Don't have an account?")
+                          createTextVNode("Already have an account?")
                         ]),
                         _: 1
                       }),
@@ -364,10 +380,10 @@ const _sfc_main = {
                         class: "submit-btn",
                         type: "submit",
                         loading: loading.value,
-                        "aria-label": "Sign In"
+                        "aria-label": "Sign Up"
                       }, {
                         default: withCtx(() => [
-                          createTextVNode(" Sign In ")
+                          createTextVNode(" Sign Up ")
                         ]),
                         _: 1
                       }, 8, ["loading"])
@@ -389,9 +405,9 @@ const _sfc_main = {
 const _sfc_setup = _sfc_main.setup;
 _sfc_main.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/login.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/signup.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : undefined;
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=login-D6z0Sk0G.mjs.map
+//# sourceMappingURL=signup-DyoMCOyj.mjs.map

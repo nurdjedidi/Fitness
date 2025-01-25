@@ -1,13 +1,5 @@
-import mongoose from 'mongoose';
+import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
-
-// Modèle d'utilisateur avec Mongoose
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
-
-const User = mongoose.model('User', userSchema);
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -18,28 +10,23 @@ export default defineEventHandler(async (event) => {
 
   const hashedPassword = await bcrypt.hash(body.password, 10);
 
-  // Connexion à MongoDB (avec Mongoose)
+  const connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB8PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+  });
+
   try {
-    // Connexion à la base de données MongoDB
-    await mongoose.connect('mongodb://localhost:27017/mydb', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-
-    // Création d'un nouvel utilisateur
-    const user = new User({
-      email: body.email,
-      password: hashedPassword
-    });
-
-    // Sauvegarder l'utilisateur dans la base de données
-    await user.save();
-
+    await connection.execute(
+      'INSERT INTO users (email, password) VALUES (?, ?)',
+      [body.email, hashedPassword]
+    );
     return { success: true, message: 'User created successfully' };
   } catch (error) {
     return { error: error.message };
   } finally {
-    // Fermer la connexion à MongoDB
-    await mongoose.connection.close();
+    connection.end();
   }
 });

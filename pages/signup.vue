@@ -36,15 +36,22 @@
   const signUp = async () => {
   loading.value = true;
 
-const res = await fetch('http://softai.42web.io/signup.php', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(form.value),
-  mode: 'no-cors',
-});
-const text = await res.text(); // Récupère la réponse en texte brut
-console.log("Response Text:", text); 
-const data = await res.json();
+  const response = await fetch('api/users', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.value,  
+        password: password.value,  
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
 
 if (data.error) {
   error.value = data.error;

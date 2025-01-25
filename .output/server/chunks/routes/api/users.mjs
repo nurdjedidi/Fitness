@@ -1,5 +1,5 @@
 import { c as defineEventHandler, r as readBody } from '../../_/nitro.mjs';
-import mongoose from 'mongoose';
+import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 import 'node:http';
 import 'node:https';
@@ -7,32 +7,29 @@ import 'node:fs';
 import 'node:url';
 import 'node:path';
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
-const User = mongoose.model("User", userSchema);
 const users = defineEventHandler(async (event) => {
   const body = await readBody(event);
   if (!body.email || !body.password) {
     return { error: "Email and password are required" };
   }
   const hashedPassword = await bcrypt.hash(body.password, 10);
+  const connection = await mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB8PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+  });
   try {
-    await mongoose.connect("mongodb://localhost:27017/mydb", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    const user = new User({
-      email: body.email,
-      password: hashedPassword
-    });
-    await user.save();
+    await connection.execute(
+      "INSERT INTO users (email, password) VALUES (?, ?)",
+      [body.email, hashedPassword]
+    );
     return { success: true, message: "User created successfully" };
   } catch (error) {
     return { error: error.message };
   } finally {
-    await mongoose.connection.close();
+    connection.end();
   }
 });
 
