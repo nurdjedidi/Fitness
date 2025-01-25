@@ -31,10 +31,14 @@ const login = defineEventHandler(async (event) => {
     if (!isPasswordValid) {
       return { error: "Incorrect password" };
     }
+<<<<<<< HEAD
     return {
       statusCode: 200,
       body: JSON.stringify({ success: true, message: "Login successful", token })
     };
+=======
+    return { success: true, message: "User created successfully" };
+>>>>>>> bf546fdaa3160db4ba57d933854f729975183e99
   } catch (error) {
     console.log(error.message, error.stack);
   } finally {
