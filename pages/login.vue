@@ -35,7 +35,27 @@ const showPassword = ref(false);
 
 const signIn = async () => {
   loading.value = true;
-  errorMessage.value = '';
+
+  const response = await fetch('api/login', {
+      method: 'GET', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: form.value.email,  
+      password: form.value.password,  
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+if (data.error) {
+  error.value = data.error;
+} 
 
   loading.value = false;
 };

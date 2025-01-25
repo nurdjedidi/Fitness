@@ -1,18 +1,16 @@
 import { c as defineEventHandler, r as readBody } from '../../_/nitro.mjs';
 import mysql from 'mysql2/promise';
-import bcrypt from 'bcrypt';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
 import 'node:url';
 import 'node:path';
 
-const users = defineEventHandler(async (event) => {
+const login = defineEventHandler(async (event) => {
   const body = await readBody(event);
   if (!body.email || !body.password) {
     return { error: "Email and password are required" };
   }
-  const hashedPassword = await bcrypt.hash(body.password, 10);
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -21,10 +19,18 @@ const users = defineEventHandler(async (event) => {
     database: process.env.DB_NAME
   });
   try {
-    await connection.execute(
-      "INSERT INTO users (email, password) VALUES (?, ?)",
-      [body.email, hashedPassword]
+    const [rows] = await connection.execute(
+      "SELECT * FROM users WHERE email = ?",
+      [body.email]
     );
+    if (rows.length === 0) {
+      return { error: "User not found" };
+    }
+    const user = rows[0];
+    const isPasswordValid = await bcrypt.compare(body.password, user.password);
+    if (!isPasswordValid) {
+      return { error: "Incorrect password" };
+    }
     return { success: true, message: "User created successfully" };
   } catch (error) {
     console.log(error.message, error.stack);
@@ -33,5 +39,5 @@ const users = defineEventHandler(async (event) => {
   }
 });
 
-export { users as default };
-//# sourceMappingURL=users.mjs.map
+export { login as default };
+//# sourceMappingURL=login.mjs.map
