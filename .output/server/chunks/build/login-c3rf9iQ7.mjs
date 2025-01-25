@@ -40,11 +40,11 @@ const _sfc_main = {
           password: form.value.password
         })
       });
+      (undefined).location.href = "/";
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       console.log(response);
-      const data = await response.json();
       if (data.error) {
         error.value = data.error;
       }
@@ -411,4 +411,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=login-C_gJu-nq.mjs.map
+//# sourceMappingURL=login-c3rf9iQ7.mjs.map

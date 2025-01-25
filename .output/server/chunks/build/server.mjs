@@ -586,7 +586,7 @@ const _routes = [
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-C_gJu-nq.mjs')
+    component: () => import('./login-c3rf9iQ7.mjs')
   },
   {
     name: "signup",
