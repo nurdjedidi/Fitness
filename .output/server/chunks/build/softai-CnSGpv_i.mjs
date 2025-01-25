@@ -282,6 +282,7 @@ const _sfc_main = {
           },
           body: JSON.stringify({ prompt: prompt.value })
         });
+        console.log(response);
         if (response.ok) {
           const data = await response.json();
           snippet.value = data.message || "No snippet generated";
@@ -300,11 +301,11 @@ const _sfc_main = {
       _push(ssrRenderComponent(VApp, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<div class="response-ai" data-v-494d5b7d${_scopeId}></div>`);
+            _push2(`<div class="response-ai" data-v-f160767e${_scopeId}></div>`);
             _push2(ssrRenderComponent(VContainer, { class: "prompt-container d-flex flex-column align-center justify-center pa-6" }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<h1 class="text-h4 font-weight-bold mb-5" data-v-494d5b7d${_scopeId2}>Generate your best snippets powered by AI</h1>`);
+                  _push3(`<h1 class="text-h4 font-weight-bold mb-5" data-v-f160767e${_scopeId2}>Generate your best snippets powered by AI</h1>`);
                   _push3(ssrRenderComponent(VTextarea, {
                     modelValue: unref(prompt),
                     "onUpdate:modelValue": ($event) => isRef(prompt) ? prompt.value = $event : null,
@@ -408,7 +409,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/softai.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : undefined;
 };
-const softai = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-494d5b7d"]]);
+const softai = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-f160767e"]]);
 
 export { softai as default };
-//# sourceMappingURL=softai-CF9pzpX2.mjs.map
+//# sourceMappingURL=softai-CnSGpv_i.mjs.map

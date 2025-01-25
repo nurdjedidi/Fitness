@@ -45,6 +45,8 @@
       body: JSON.stringify({ prompt: prompt.value }),
     });
 
+    console.log(response);
+
     if (response.ok) {
       const data = await response.json();
       snippet.value = data.message || 'No snippet generated'; 
