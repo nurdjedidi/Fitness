@@ -43,10 +43,7 @@ const _sfc_main = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-<<<<<<<< HEAD:.output/server/chunks/build/login-C_gJu-nq.mjs
       console.log(response);
-========
->>>>>>>> bf546fdaa3160db4ba57d933854f729975183e99:.output/server/chunks/build/login-ARIdxsr5.mjs
       const data = await response.json();
       if (data.error) {
         error.value = data.error;
@@ -414,8 +411,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-<<<<<<<< HEAD:.output/server/chunks/build/login-C_gJu-nq.mjs
 //# sourceMappingURL=login-C_gJu-nq.mjs.map
-========
-//# sourceMappingURL=login-ARIdxsr5.mjs.map
->>>>>>>> bf546fdaa3160db4ba57d933854f729975183e99:.output/server/chunks/build/login-ARIdxsr5.mjs

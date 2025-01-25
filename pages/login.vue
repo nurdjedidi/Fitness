@@ -51,11 +51,8 @@ const signIn = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-<<<<<<< HEAD
     console.log(response);
 
-=======
->>>>>>> bf546fdaa3160db4ba57d933854f729975183e99
     const data = await response.json();
 
 if (data.error) {
