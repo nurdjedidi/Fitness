@@ -30,15 +30,20 @@ const _sfc_main = {
     const showPassword = ref(false);
     const signUp = async () => {
       loading.value = true;
-      const res = await fetch("http://softai.42web.io/signup.php", {
+      const response = await fetch("api/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form.value),
-        mode: "no-cors"
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: form.value.email,
+          password: form.value.password
+        })
       });
-      const text = await res.text();
-      console.log("Response Text:", text);
-      const data = await res.json();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
       if (data.error) {
         error.value = data.error;
       }
@@ -405,4 +410,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=signup-BbUuYB6i.mjs.map
+//# sourceMappingURL=signup-C3CcABCg.mjs.map

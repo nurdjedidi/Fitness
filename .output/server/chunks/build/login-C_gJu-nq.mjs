@@ -30,7 +30,24 @@ const _sfc_main = {
     const showPassword = ref(false);
     const signIn = async () => {
       loading.value = true;
-      errorMessage.value = "";
+      const response = await fetch("api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: form.value.email,
+          password: form.value.password
+        })
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      console.log(response);
+      const data = await response.json();
+      if (data.error) {
+        error.value = data.error;
+      }
       loading.value = false;
     };
     const togglePasswordVisibility = () => {
@@ -394,4 +411,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=login-Cy3uigrj.mjs.map
+//# sourceMappingURL=login-C_gJu-nq.mjs.map
