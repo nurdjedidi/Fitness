@@ -18,11 +18,11 @@ const softai = defineEventHandler(async (event) => {
         { role: "developer", content: "You are a helpful assistant." },
         {
           role: "user",
-          content: "Write my code that i said."
+          "content": event.body.prompt
         }
       ]
     });
-    console.log(completion.choices[0].message);
+    console.log(completion);
     return {
       statusCode: 200,
       body: {
