@@ -41,7 +41,23 @@ export default defineNuxtConfig({
       title: 'Portfolio | Nûr',
     },
   },
-  modules: [
+  routeRules: {
+    '/api/food': {
+      proxy: {
+        to: 'https://api.edamam.com/api/food-database/v2/parser', 
+      }
+    }
+  },
+  nitro: {
+    devProxy: {
+      "/api/food": {
+        target: "https://api.edamam.com/api/food-database/v2/parser", // L'API cible
+        changeOrigin: true, // Pour changer l'origine des requêtes
+        prependPath: true, // Pour que le chemin soit correctement préfixé
+      },
+    }
+  },
+  modules: [ 
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error

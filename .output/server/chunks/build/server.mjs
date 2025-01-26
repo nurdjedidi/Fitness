@@ -1,5 +1,5 @@
-import { version as version$1, unref, inject as inject$1, watch, onScopeDispose, Fragment, reactive, computed, watchEffect, toRefs, capitalize, shallowRef, warn, getCurrentInstance as getCurrentInstance$1, ref, provide, defineComponent as defineComponent$1, toRaw, createVNode, mergeProps, shallowReactive, h, Suspense, nextTick, Transition, hasInjectionContext, effectScope, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, useSSRContext, toRef, defineAsyncComponent, isReadonly, isRef, isShallow, isReactive } from 'vue';
-import { $ as $fetch, l as hasProtocol, m as isScriptProtocol, n as joinURL, w as withQuery, o as defu, p as sanitizeStatusCode, q as getContext, v as createHooks, f as createError$1, x as toRouteMatcher, y as createRouter$1 } from '../_/nitro.mjs';
+import { version as version$1, unref, inject as inject$1, watch, onScopeDispose, Fragment, reactive, computed, watchEffect, toRefs, capitalize, isVNode, Comment, shallowRef, warn, getCurrentInstance as getCurrentInstance$1, ref, provide, defineComponent as defineComponent$1, toRaw, createVNode, mergeProps, shallowReactive, h, Suspense, nextTick, Transition, hasInjectionContext, effectScope, useSSRContext, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, defineAsyncComponent, isReadonly, isRef, isShallow, isReactive } from 'vue';
+import { $ as $fetch, l as hasProtocol, m as isScriptProtocol, n as joinURL, w as withQuery, o as defu, p as sanitizeStatusCode, q as getContext, v as createHooks, e as createError$1, x as toRouteMatcher, y as createRouter$1 } from '../_/nitro.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead, CapoPlugin } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
@@ -574,24 +574,29 @@ function handleHotUpdate(_router, _generateRoutes) {
 }
 const _routes = [
   {
+    name: "dashboard",
+    path: "/dashboard",
+    component: () => import('./dashboard-JDBusdJB.mjs')
+  },
+  {
+    name: "healthForm",
+    path: "/healthForm",
+    component: () => import('./healthForm-B_Q6ZLi6.mjs')
+  },
+  {
     name: "index",
     path: "/",
-    component: () => import('./index-oJq-3u-0.mjs')
+    component: () => import('./index-Clnhh28s.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-pWrRTBg2.mjs')
+    component: () => import('./login-CYGbBCIY.mjs')
   },
   {
     name: "signup",
     path: "/signup",
-    component: () => import('./signup-DT4IGMzU.mjs')
-  },
-  {
-    name: "softai",
-    path: "/softai",
-    component: () => import('./softai-DOaoNy_e.mjs')
+    component: () => import('./signup-BUi6DTiW.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -988,6 +993,20 @@ function getObjectValueByPath(obj, path, fallback) {
   path = path.replace(/^\./, "");
   return getNestedValue(obj, path.split("."), fallback);
 }
+function getPropertyFromItem(item, property, fallback) {
+  if (property === true) return item === undefined ? fallback : item;
+  if (property == null || typeof property === "boolean") return fallback;
+  if (item !== Object(item)) {
+    if (typeof property !== "function") return fallback;
+    const value2 = property(item, fallback);
+    return typeof value2 === "undefined" ? fallback : value2;
+  }
+  if (typeof property === "string") return getObjectValueByPath(item, property, fallback);
+  if (Array.isArray(property)) return getNestedValue(item, property, fallback);
+  if (typeof property !== "function") return fallback;
+  const value = property(item, fallback);
+  return typeof value === "undefined" ? fallback : value;
+}
 function createRange(length) {
   let start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   return Array.from({
@@ -1092,6 +1111,21 @@ function filterInputAttrs(attrs) {
 }
 function wrapInArray(v) {
   return v == null ? [] : Array.isArray(v) ? v : [v];
+}
+function debounce(fn, delay) {
+  let timeoutId = 0;
+  const wrap = function() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), unref(delay));
+  };
+  wrap.clear = () => {
+    clearTimeout(timeoutId);
+  };
+  wrap.immediate = fn;
+  return wrap;
 }
 function clamp(value) {
   let min = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -1205,6 +1239,67 @@ function callEvent(handler) {
     handler(...args);
   }
 }
+function focusableChildren(el) {
+  let filterByTabIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  const targets = ["button", "[href]", 'input:not([type="hidden"])', "select", "textarea", "[tabindex]"].map((s) => `${s}${filterByTabIndex ? ':not([tabindex="-1"])' : ""}:not([disabled])`).join(", ");
+  return [...el.querySelectorAll(targets)];
+}
+function getNextElement(elements, location, condition) {
+  let _el;
+  let idx = elements.indexOf((undefined).activeElement);
+  const inc = location === "next" ? 1 : -1;
+  do {
+    idx += inc;
+    _el = elements[idx];
+  } while ((!_el || _el.offsetParent == null || !((condition == null ? undefined : condition(_el)) ?? true)) && idx < elements.length && idx >= 0);
+  return _el;
+}
+function focusChild(el, location) {
+  var _a, _b, _c, _d;
+  const focusable = focusableChildren(el);
+  if (!location) {
+    if (el === (undefined).activeElement || !el.contains((undefined).activeElement)) {
+      (_a = focusable[0]) == null ? undefined : _a.focus();
+    }
+  } else if (location === "first") {
+    (_b = focusable[0]) == null ? undefined : _b.focus();
+  } else if (location === "last") {
+    (_c = focusable.at(-1)) == null ? undefined : _c.focus();
+  } else if (typeof location === "number") {
+    (_d = focusable[location]) == null ? undefined : _d.focus();
+  } else {
+    const _el = getNextElement(focusable, location);
+    if (_el) _el.focus();
+    else focusChild(el, location === "next" ? "first" : "last");
+  }
+}
+function matchesSelector(el, selector) {
+  return null;
+}
+function ensureValidVNode(vnodes) {
+  return vnodes.some((child) => {
+    if (!isVNode(child)) return true;
+    if (child.type === Comment) return false;
+    return child.type !== Fragment || ensureValidVNode(child.children);
+  }) ? vnodes : null;
+}
+function defer(timeout, cb) {
+  {
+    cb();
+    return () => {
+    };
+  }
+}
+function isClickInsideElement(event, targetDiv) {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+  const divRect = targetDiv.getBoundingClientRect();
+  const divLeft = divRect.left;
+  const divTop = divRect.top;
+  const divRight = divRect.right;
+  const divBottom = divRect.bottom;
+  return mouseX >= divLeft && mouseX <= divRight && mouseY >= divTop && mouseY <= divBottom;
+}
 function templateRef() {
   const el = shallowRef();
   const fn = (target) => {
@@ -1220,6 +1315,11 @@ function templateRef() {
     get: () => refElement(el.value)
   });
   return fn;
+}
+function checkPrintable(e) {
+  const isPrintableChar = e.key.length === 1;
+  const noModifier = !e.ctrlKey && !e.metaKey && !e.altKey;
+  return isPrintableChar && noModifier;
 }
 const mainTRC = 2.4;
 const Rco = 0.2126729;
@@ -1265,6 +1365,10 @@ function consoleWarn(message) {
 }
 function consoleError(message) {
   warn(`Vuetify error: ${message}`);
+}
+function deprecate(original, replacement) {
+  replacement = Array.isArray(replacement) ? replacement.slice(0, -1).map((s) => `'${s}'`).join(", ") + ` or '${replacement.at(-1)}'` : `'${replacement}'`;
+  warn(`[Vuetify UPGRADE] '${original}' is deprecated, use ${replacement} instead.`);
 }
 const delta = 0.20689655172413793;
 const cielabForwardTransform = (t) => t > delta ** 3 ? Math.cbrt(t) : t / (3 * delta ** 2) + 4 / 29;
@@ -2793,6 +2897,7 @@ function createInstance(options, locale) {
   });
   return instance;
 }
+const breakpoints = ["sm", "md", "lg", "xl", "xxl"];
 const DisplaySymbol = Symbol.for("vuetify:display");
 const defaultDisplayOptions = {
   mobileBreakpoint: "lg",
@@ -2902,6 +3007,36 @@ function createDisplay(options, ssr) {
     ssr: !!ssr
   };
 }
+const makeDisplayProps = propsFactory({
+  mobile: {
+    type: Boolean,
+    default: false
+  },
+  mobileBreakpoint: [Number, String]
+}, "display");
+function useDisplay() {
+  let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getCurrentInstanceName();
+  const display = inject$1(DisplaySymbol);
+  if (!display) throw new Error("Could not find Vuetify display injection");
+  const mobile = computed(() => {
+    if (props.mobile != null) return props.mobile;
+    if (!props.mobileBreakpoint) return display.mobile.value;
+    const breakpointValue = typeof props.mobileBreakpoint === "number" ? props.mobileBreakpoint : display.thresholds.value[props.mobileBreakpoint];
+    return display.width.value < breakpointValue;
+  });
+  const displayClasses = computed(() => {
+    if (!name) return {};
+    return {
+      [`${name}--mobile`]: mobile.value
+    };
+  });
+  return {
+    ...display,
+    displayClasses,
+    mobile
+  };
+}
 const GoToSymbol = Symbol.for("vuetify:goto");
 function genDefaults$2() {
   return {
@@ -2927,11 +3062,107 @@ function genDefaults$2() {
     }
   };
 }
+function getContainer(el) {
+  return getTarget(el) ?? ((undefined).scrollingElement || (undefined).body);
+}
+function getTarget(el) {
+  return typeof el === "string" ? (undefined).querySelector(el) : refElement(el);
+}
+function getOffset(target, horizontal, rtl) {
+  if (typeof target === "number") return horizontal && rtl ? -target : target;
+  let el = getTarget(target);
+  let totalOffset = 0;
+  while (el) {
+    totalOffset += horizontal ? el.offsetLeft : el.offsetTop;
+    el = el.offsetParent;
+  }
+  return totalOffset;
+}
 function createGoTo(options, locale) {
   return {
     rtl: locale.isRtl,
     options: mergeDeep(genDefaults$2(), options)
   };
+}
+async function scrollTo(_target, _options, horizontal, goTo) {
+  const property = horizontal ? "scrollLeft" : "scrollTop";
+  const options = mergeDeep((goTo == null ? undefined : goTo.options) ?? genDefaults$2(), _options);
+  const rtl = goTo == null ? undefined : goTo.rtl.value;
+  const target = (typeof _target === "number" ? _target : getTarget(_target)) ?? 0;
+  const container = options.container === "parent" && target instanceof HTMLElement ? target.parentElement : getContainer(options.container);
+  const ease = typeof options.easing === "function" ? options.easing : options.patterns[options.easing];
+  if (!ease) throw new TypeError(`Easing function "${options.easing}" not found.`);
+  let targetLocation;
+  if (typeof target === "number") {
+    targetLocation = getOffset(target, horizontal, rtl);
+  } else {
+    targetLocation = getOffset(target, horizontal, rtl) - getOffset(container, horizontal, rtl);
+    if (options.layout) {
+      const styles = (undefined).getComputedStyle(target);
+      const layoutOffset = styles.getPropertyValue("--v-layout-top");
+      if (layoutOffset) targetLocation -= parseInt(layoutOffset, 10);
+    }
+  }
+  targetLocation += options.offset;
+  targetLocation = clampTarget(container, targetLocation, !!rtl, !!horizontal);
+  const startLocation = container[property] ?? 0;
+  if (targetLocation === startLocation) return Promise.resolve(targetLocation);
+  const startTime = performance.now();
+  return new Promise((resolve) => requestAnimationFrame(function step(currentTime) {
+    const timeElapsed = currentTime - startTime;
+    const progress = timeElapsed / options.duration;
+    const location = Math.floor(startLocation + (targetLocation - startLocation) * ease(clamp(progress, 0, 1)));
+    container[property] = location;
+    if (progress >= 1 && Math.abs(location - container[property]) < 10) {
+      return resolve(targetLocation);
+    } else if (progress > 2) {
+      consoleWarn("Scroll target is not reachable");
+      return resolve(container[property]);
+    }
+    requestAnimationFrame(step);
+  }));
+}
+function useGoTo() {
+  let _options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  const goToInstance = inject$1(GoToSymbol);
+  const {
+    isRtl
+  } = useRtl();
+  if (!goToInstance) throw new Error("[Vuetify] Could not find injected goto instance");
+  const goTo = {
+    ...goToInstance,
+    // can be set via VLocaleProvider
+    rtl: computed(() => goToInstance.rtl.value || isRtl.value)
+  };
+  async function go(target, options) {
+    return scrollTo(target, mergeDeep(_options, options), false, goTo);
+  }
+  go.horizontal = async (target, options) => {
+    return scrollTo(target, mergeDeep(_options, options), true, goTo);
+  };
+  return go;
+}
+function clampTarget(container, value, rtl, horizontal) {
+  const {
+    scrollWidth,
+    scrollHeight
+  } = container;
+  const [containerWidth, containerHeight] = container === (undefined).scrollingElement ? [(undefined).innerWidth, (undefined).innerHeight] : [container.offsetWidth, container.offsetHeight];
+  let min;
+  let max;
+  if (horizontal) {
+    if (rtl) {
+      min = -(scrollWidth - containerWidth);
+      max = 0;
+    } else {
+      min = 0;
+      max = scrollWidth - containerWidth;
+    }
+  } else {
+    min = 0;
+    max = scrollHeight + -containerHeight;
+  }
+  return Math.max(Math.min(value, max), min);
 }
 const aliases = {
   collapse: "mdi-chevron-up",
@@ -3625,24 +3856,27 @@ function hasChildrenRoutes(fork, newRoute, Component) {
   });
   return index < newRoute.matched.length - 1;
 }
-const _sfc_main$2 = {
-  __name: "app",
-  __ssrInlineRender: true,
-  setup(__props) {
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtPage = __nuxt_component_0;
-      _push(`<main${ssrRenderAttrs(_attrs)}>`);
-      _push(ssrRenderComponent(_component_NuxtPage, null, null, _parent));
-      _push(`</main>`);
-    };
+const _export_sfc = (sfc, props) => {
+  const target = sfc.__vccOpts || sfc;
+  for (const [key, val] of props) {
+    target[key] = val;
   }
+  return target;
 };
+const _sfc_main$2 = {};
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
+  const _component_NuxtPage = __nuxt_component_0;
+  _push(`<main${ssrRenderAttrs(_attrs)}>`);
+  _push(ssrRenderComponent(_component_NuxtPage, null, null, _parent));
+  _push(`</main>`);
+}
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : undefined;
 };
+const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender]]);
 const _sfc_main$1 = {
   __name: "nuxt-error-page",
   __ssrInlineRender: true,
@@ -3664,8 +3898,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = undefined;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-CPwfNKg5.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-0xptOmR5.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-dCPUF1NO.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-Ev-21Say.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -3712,7 +3946,7 @@ const _sfc_main = {
           } else if (unref(SingleRenderer)) {
             ssrRenderVNode(_push, createVNode(resolveDynamicComponent(unref(SingleRenderer)), null, null), _parent);
           } else {
-            _push(ssrRenderComponent(unref(_sfc_main$2), null, null, _parent));
+            _push(ssrRenderComponent(unref(AppComponent), null, null, _parent));
           }
         },
         _: 1
@@ -3746,5 +3980,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { parseColor as A, getForeground as B, getCurrentInstanceName as C, deepEqual as D, wrapInArray as E, consoleWarn as F, useIcon as G, flattenFragments as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, filterInputAttrs as M, callEvent as N, EventProp as O, useLocale as P, isOn as Q, pick as R, only as S, navigateTo as a, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, provideTheme as e, useRtl as f, genericComponent as g, provideDefaults as h, injectHead as i, convertToUnit as j, clamp as k, useProxiedModel as l, makeThemeProps as m, nuxtLinkDefaults as n, useToggleScope as o, propsFactory as p, getUid as q, resolveRouteObject as r, getCurrentInstance as s, findChildrenWithProvide as t, useRouter as u, includes as v, templateRef as w, destructComputed as x, isCssColor as y, isParsableColor as z };
+export { matchesSelector as $, isParsableColor as A, parseColor as B, getForeground as C, getCurrentInstanceName as D, deepEqual as E, wrapInArray as F, consoleWarn as G, useIcon as H, IconValue as I, flattenFragments as J, hasEvent as K, isObject as L, keyCodes as M, EventProp as N, useLocale as O, isOn as P, pick as Q, only as R, filterInputAttrs as S, callEvent as T, consoleError as U, defineComponent as V, deprecate as W, getPropertyFromItem as X, omit as Y, focusChild as Z, _export_sfc as _, navigateTo as a, makeDisplayProps as a0, useDisplay as a1, useGoTo as a2, focusableChildren as a3, defer as a4, isClickInsideElement as a5, getNextElement as a6, debounce as a7, ensureValidVNode as a8, checkPrintable as a9, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, breakpoints as e, getUid as f, genericComponent as g, getCurrentInstance as h, injectHead as i, convertToUnit as j, findChildrenWithProvide as k, provideTheme as l, makeThemeProps as m, nuxtLinkDefaults as n, useRtl as o, propsFactory as p, provideDefaults as q, resolveRouteObject as r, clamp as s, useProxiedModel as t, useRouter as u, useToggleScope as v, includes as w, templateRef as x, destructComputed as y, isCssColor as z };
 //# sourceMappingURL=server.mjs.map

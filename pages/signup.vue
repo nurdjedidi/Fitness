@@ -53,6 +53,8 @@
 
     const data = await response.json();
 
+    window.location.href = '/healthForm';
+
 if (data.error) {
   error.value = data.error;
 } 
