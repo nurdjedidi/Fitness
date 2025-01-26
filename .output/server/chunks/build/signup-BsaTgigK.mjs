@@ -44,7 +44,6 @@ const _sfc_main = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
       (undefined).location.href = "/healthForm";
       if (data.error) {
         error.value = data.error;
@@ -412,4 +411,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=signup-BUi6DTiW.mjs.map
+//# sourceMappingURL=signup-BsaTgigK.mjs.map

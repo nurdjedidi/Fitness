@@ -51,8 +51,6 @@
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-
     window.location.href = '/healthForm';
 
 if (data.error) {

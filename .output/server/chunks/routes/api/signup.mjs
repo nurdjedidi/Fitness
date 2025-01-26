@@ -18,17 +18,14 @@ const signup = defineEventHandler(async (event) => {
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database_url: process.env.DATABASE_URL
+    database: process.env.DB.NAME
   });
   try {
     await connection.execute(
       "INSERT INTO users (email, password) VALUES (?, ?)",
       [body.email, hashedPassword]
     );
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true, message: "Sign Up successful" })
-    };
+    return { success: true, message: "Sign Up successful" };
   } catch (error) {
     console.log(error.message, error.stack);
   } finally {
