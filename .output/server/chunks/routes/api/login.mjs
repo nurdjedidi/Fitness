@@ -1,5 +1,7 @@
 import { c as defineEventHandler, r as readBody } from '../../_/nitro.mjs';
 import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
@@ -31,11 +33,16 @@ const login = defineEventHandler(async (event) => {
     if (!isPasswordValid) {
       return { error: "Incorrect password" };
     }
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
     return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true, message: "Login successful", token })
+      success: true,
+      userId: user.id,
+      token
     };
-    return { success: true, message: "User created successfully" };
   } catch (error) {
     console.log(error.message, error.stack);
   } finally {

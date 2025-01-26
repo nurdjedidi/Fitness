@@ -1,4 +1,7 @@
-import mysql from 'mysql2/promise';
+import { defineEventHandler, readBody, createError } from 'h3'
+import mysql from 'mysql2/promise'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -33,11 +36,17 @@ export default defineEventHandler(async (event) => {
         return { error: 'Incorrect password' };  
       }
 
+      const token = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' }
+      )
+
       return {
-        statusCode: 200,
-        body: JSON.stringify({ success: true, message: 'Login successful', token })
-      };  
-    return { success: true, message: 'User created successfully' };
+        success: true,
+        userId: user.id,
+        token
+      }
 
   } catch (error) {
     console.log(error.message, error.stack);

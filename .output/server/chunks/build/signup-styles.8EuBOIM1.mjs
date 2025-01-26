@@ -6,6 +6,7 @@ import 'node:http';
 import 'node:https';
 import 'node:fs';
 import 'node:url';
+import 'jsonwebtoken';
 import 'node:path';
 import 'devalue';
 import 'vue/server-renderer';

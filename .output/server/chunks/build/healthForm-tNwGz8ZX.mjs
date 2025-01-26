@@ -11,6 +11,7 @@ import 'node:http';
 import 'node:https';
 import 'node:fs';
 import 'node:url';
+import 'jsonwebtoken';
 import 'node:path';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
@@ -3447,7 +3448,8 @@ const _sfc_main = {
         const response = await fetch("api/user", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({
             sexe: form.value.sexe,
@@ -3870,4 +3872,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=healthForm-7K240aZC.mjs.map
+//# sourceMappingURL=healthForm-tNwGz8ZX.mjs.map

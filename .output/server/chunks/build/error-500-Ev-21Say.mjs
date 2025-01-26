@@ -7,6 +7,7 @@ import 'node:http';
 import 'node:https';
 import 'node:fs';
 import 'node:url';
+import 'jsonwebtoken';
 import 'node:path';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';

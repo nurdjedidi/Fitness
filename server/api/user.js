@@ -14,6 +14,10 @@ export default defineEventHandler(async (event) => {
 
   try {
     const userId = event.context.user?.id;
+    
+    if (!userId) {
+        throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+      }
 
     const [result] = await connection.execute(
       `INSERT INTO nutrition (sexe, size, years, weight, activity, user_id) 

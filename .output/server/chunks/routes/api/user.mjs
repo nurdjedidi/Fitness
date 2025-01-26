@@ -4,6 +4,7 @@ import 'node:http';
 import 'node:https';
 import 'node:fs';
 import 'node:url';
+import 'jsonwebtoken';
 import 'node:path';
 
 const user = defineEventHandler(async (event) => {
@@ -18,6 +19,9 @@ const user = defineEventHandler(async (event) => {
   });
   try {
     const userId = (_a = event.context.user) == null ? void 0 : _a.id;
+    if (!userId) {
+      throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+    }
     const [result] = await connection.execute(
       `INSERT INTO nutrition (sexe, size, years, weight, activity, user_id) 
        VALUES (?, ?, ?, ?, ?, ?)`,

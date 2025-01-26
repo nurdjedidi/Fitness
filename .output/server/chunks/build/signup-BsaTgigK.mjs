@@ -9,6 +9,7 @@ import 'node:http';
 import 'node:https';
 import 'node:fs';
 import 'node:url';
+import 'jsonwebtoken';
 import 'node:path';
 import './server.mjs';
 import '../routes/renderer.mjs';
