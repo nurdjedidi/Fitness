@@ -25,7 +25,10 @@ const signup = defineEventHandler(async (event) => {
       "INSERT INTO users (email, password) VALUES (?, ?)",
       [body.email, hashedPassword]
     );
-    return { success: true, message: "User created successfully" };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true, message: "Sign Up successful" })
+    };
   } catch (error) {
     console.log(error.message, error.stack);
   } finally {
