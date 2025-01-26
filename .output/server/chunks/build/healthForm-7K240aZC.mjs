@@ -3450,11 +3450,11 @@ const _sfc_main = {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            sexe: form.sexe.value,
-            size: form.size.value,
-            years: form.years.value,
-            weight: form.weight.value,
-            activity: form.activity.value
+            sexe: form.value.sexe,
+            size: form.value.size,
+            years: form.value.years,
+            weight: form.value.weight,
+            activity: form.value.activity
           })
         });
         loading.value = false;
@@ -3497,7 +3497,11 @@ const _sfc_main = {
                   }, {
                     default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(ssrRenderComponent(VRadioGroup, { inline: "" }, {
+                        _push4(ssrRenderComponent(VRadioGroup, {
+                          modelValue: form.value.sexe,
+                          "onUpdate:modelValue": ($event) => form.value.sexe = $event,
+                          inline: ""
+                        }, {
                           default: withCtx((_4, _push5, _parent5, _scopeId4) => {
                             if (_push5) {
                               _push5(ssrRenderComponent(VRadio, {
@@ -3585,7 +3589,11 @@ const _sfc_main = {
                         }, _parent4, _scopeId3));
                       } else {
                         return [
-                          createVNode(VRadioGroup, { inline: "" }, {
+                          createVNode(VRadioGroup, {
+                            modelValue: form.value.sexe,
+                            "onUpdate:modelValue": ($event) => form.value.sexe = $event,
+                            inline: ""
+                          }, {
                             default: withCtx(() => [
                               createVNode(VRadio, {
                                 label: "Men",
@@ -3598,7 +3606,7 @@ const _sfc_main = {
                               })
                             ]),
                             _: 1
-                          }),
+                          }, 8, ["modelValue", "onUpdate:modelValue"]),
                           createVNode(VTextField, {
                             modelValue: form.value.size,
                             "onUpdate:modelValue": ($event) => form.value.size = $event,
@@ -3670,7 +3678,11 @@ const _sfc_main = {
                       onSubmit: withModifiers(userData, ["prevent"])
                     }, {
                       default: withCtx(() => [
-                        createVNode(VRadioGroup, { inline: "" }, {
+                        createVNode(VRadioGroup, {
+                          modelValue: form.value.sexe,
+                          "onUpdate:modelValue": ($event) => form.value.sexe = $event,
+                          inline: ""
+                        }, {
                           default: withCtx(() => [
                             createVNode(VRadio, {
                               label: "Men",
@@ -3683,7 +3695,7 @@ const _sfc_main = {
                             })
                           ]),
                           _: 1
-                        }),
+                        }, 8, ["modelValue", "onUpdate:modelValue"]),
                         createVNode(VTextField, {
                           modelValue: form.value.size,
                           "onUpdate:modelValue": ($event) => form.value.size = $event,
@@ -3765,7 +3777,11 @@ const _sfc_main = {
                     onSubmit: withModifiers(userData, ["prevent"])
                   }, {
                     default: withCtx(() => [
-                      createVNode(VRadioGroup, { inline: "" }, {
+                      createVNode(VRadioGroup, {
+                        modelValue: form.value.sexe,
+                        "onUpdate:modelValue": ($event) => form.value.sexe = $event,
+                        inline: ""
+                      }, {
                         default: withCtx(() => [
                           createVNode(VRadio, {
                             label: "Men",
@@ -3778,7 +3794,7 @@ const _sfc_main = {
                           })
                         ]),
                         _: 1
-                      }),
+                      }, 8, ["modelValue", "onUpdate:modelValue"]),
                       createVNode(VTextField, {
                         modelValue: form.value.size,
                         "onUpdate:modelValue": ($event) => form.value.size = $event,
@@ -3854,4 +3870,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=healthForm-B_Q6ZLi6.mjs.map
+//# sourceMappingURL=healthForm-7K240aZC.mjs.map

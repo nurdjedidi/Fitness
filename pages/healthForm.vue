@@ -6,7 +6,7 @@
         <v-card-title class="text-h5 font-weight-bold text-center mb-4">Let's build something great !</v-card-title>
         <v-divider class="my-5"></v-divider>
         <v-form class="d-flex flex-column" @submit.prevent="userData">
-          <v-radio-group inline>
+          <v-radio-group v-model="form.sexe" inline>
             <v-radio label="Men" value="Men" class="mr-2"></v-radio>
              <v-radio label="Women" value="Women"></v-radio>
             </v-radio-group>
@@ -47,11 +47,11 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        sexe: form.sexe.value,
-        size: form.size.value,
-        years: form.years.value,
-        weight: form.weight.value,
-        activity: form.activity.value 
+        sexe: form.value.sexe,
+        size: form.value.size,
+        years: form.value.years,
+        weight: form.value.weight,
+        activity: form.value.activity
       }),
     });
 
