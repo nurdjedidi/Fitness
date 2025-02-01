@@ -1,7 +1,8 @@
-import { defineEventHandler, readBody, createError } from 'h3'
-import mysql from 'mysql2/promise'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import { defineEventHandler, readBody, createError } from 'h3';
+import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { pool } from '../db';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -12,16 +13,8 @@ export default defineEventHandler(async (event) => {
 
   const hashedPassword = await bcrypt.hash(body.password, 10);
 
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  });
-
   try {
-    await connection.execute(
+   const [result] = await pool.execute(
       'INSERT INTO users (email, password) VALUES (?, ?)',
       [body.email, hashedPassword]
     );
@@ -42,7 +35,5 @@ export default defineEventHandler(async (event) => {
     }
   } catch (error) {
     console.log(error.message, error.stack);
-  } finally {
-    connection.end();
-  }
+  } 
 });

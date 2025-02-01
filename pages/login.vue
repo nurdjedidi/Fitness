@@ -4,7 +4,7 @@
   <v-container class="d-flex justify-center align-center" style="height: 100vh;">
     <v-card class="glass-card pa-12 rounded-lg shadow-sm" elevation="3" max-width="600" color="transparent">
       <v-card-title class="text-h5 font-weight-bold text-center mb-4">Sign In to Your Account</v-card-title>
-      <v-form class="d-flex flex-column" @submit.prevent="signIn">
+      <v-form class="d-flex flex-column" @submit.prevent="handleSignin">
         <v-text-field v-model="form.email" label="Email" type="email" name="email" variant="outlined" density="comfortable" color="primary" required></v-text-field>
         <v-text-field v-model="form.password" :type="showPassword ? 'text' : 'password'"  label="Password" type="password" name="password" variant="outlined" density="comfortable" color="primary" required>
           <template v-slot:append-inner>
@@ -25,6 +25,10 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+   import { useUserStore } from '~/stores/userStore';
+   const router = useRouter();
+   const userStore = useUserStore();
 
 const form = ref({
   email: '',
@@ -33,34 +37,17 @@ const form = ref({
 const loading = ref(false);
 const showPassword = ref(false);
 
-const signIn = async () => {
-  loading.value = true;
-
-  const response = await fetch('api/login', {
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: form.value.email,  
-      password: form.value.password,  
-      }),
-    });
-
-    window.location.href = '/dashboard';
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    console.log(response);
-
-if (data.error) {
-  error.value = data.error;
-} 
-
-  loading.value = false;
-};
+const handleSignin = async () => {
+  loading.value = true
+  try {
+    await userStore.signin(form.value.email, form.value.password)
+    router.push('/dashboard') 
+  } catch (err) {
+    console.error(err.message)
+  } finally {
+    loading.value = false
+  }
+}
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;

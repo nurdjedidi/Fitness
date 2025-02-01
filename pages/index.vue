@@ -2,10 +2,10 @@
   <v-app>
     <v-app-bar color="transparent" elevation="0" class="custom-header">
         <v-app-bar-title class="logo d-flex align-center ml-3">
-           SoftAI
+           NutriWeb
         </v-app-bar-title>
         <template v-slot:prepend>
-          <v-app-bar-nav-icon icon="mdi-lightbulb-on-outline"></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon icon="mdi-nutrition"></v-app-bar-nav-icon>
         </template>
         <v-spacer></v-spacer>
         <NuxtLink to="/login">
@@ -18,16 +18,13 @@
     <section class="intro-img">
       <div class="overlay"></div>
       <v-container class="intro-text">
-        <h1>Welcome to SoftAI</h1>
-        <p>Generate your best snippets powered by AI.</p>
+        <h1>Welcome to NutriWeb</h1>
+        <p>Your health is our priority.</p>
         <NuxtLink to="/login">
-          <v-btn elevation="2" class="cta-btn">Try for free!</v-btn>
+          <v-btn elevation="2" class="try-btn">Try for free!</v-btn>
         </NuxtLink>
       </v-container>
     </section>
-    <v-footer class="footer">
-      <p>&copy; {{ new Date().getFullYear() }} SoftAI. All rights reserved.</p>
-    </v-footer>
   </v-app>
 </template>
 
@@ -45,7 +42,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .custom-header {
@@ -57,7 +54,7 @@
   padding: 0 16px; 
 }
 
-.login-btn, .signup-btn {
+.login-btn, .signup-btn, .btn-try {
   font-weight: 600;
   margin-right: 15px;
 }
@@ -79,11 +76,5 @@
 .intro-text p {
   font-size: 1.2rem;
   margin-bottom: 20px;
-}
-
-.footer {
-  text-align: center;
-  padding: 15px;
-  font-size: 0.9rem;
 }
 </style>

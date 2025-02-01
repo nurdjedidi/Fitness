@@ -1,10 +1,11 @@
-import { version as version$1, unref, inject as inject$1, watch, onScopeDispose, Fragment, reactive, computed, watchEffect, toRefs, capitalize, isVNode, Comment, shallowRef, warn, getCurrentInstance as getCurrentInstance$1, ref, provide, defineComponent as defineComponent$1, toRaw, createVNode, mergeProps, shallowReactive, h, Suspense, nextTick, Transition, hasInjectionContext, effectScope, useSSRContext, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, defineAsyncComponent, isReadonly, isRef, isShallow, isReactive } from 'vue';
-import { $ as $fetch, l as hasProtocol, m as isScriptProtocol, n as joinURL, w as withQuery, o as defu, p as sanitizeStatusCode, q as getContext, v as createHooks, e as createError$1, x as toRouteMatcher, y as createRouter$1 } from '../_/nitro.mjs';
+import { version as version$1, unref, inject as inject$1, watch, onScopeDispose, Fragment, reactive, computed, watchEffect, toRefs, capitalize, isVNode, Comment, shallowRef, warn, getCurrentInstance as getCurrentInstance$1, ref, provide, defineComponent as defineComponent$1, toRaw, createVNode, mergeProps, h, shallowReactive, Suspense, nextTick, Transition, hasInjectionContext, effectScope, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, useSSRContext, toRef, withCtx, defineAsyncComponent, isReadonly, isRef, isShallow, isReactive } from 'vue';
+import { $ as $fetch$1, l as hasProtocol, m as isScriptProtocol, n as joinURL, w as withQuery, o as defu, p as sanitizeStatusCode, q as getContext, v as createHooks, e as createError$1, x as toRouteMatcher, y as createRouter$1 } from '../_/nitro.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
+import { defineStore, createPinia, setActivePinia, shouldHydrate } from 'pinia';
 import { getActiveHead, CapoPlugin } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
-import { RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
-import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode, ssrRenderAttrs } from 'vue/server-renderer';
+import { useRoute as useRoute$1, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
+import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
 import 'node:http';
 import 'node:https';
 import 'node:fs';
@@ -16,10 +17,11 @@ import 'devalue';
 import '@unhead/ssr';
 
 if (!globalThis.$fetch) {
-  globalThis.$fetch = $fetch.create({
+  globalThis.$fetch = $fetch$1.create({
     baseURL: baseURL()
   });
 }
+const appLayoutTransition = false;
 const appPageTransition = false;
 const appKeepalive = false;
 const nuxtLinkDefaults = { "componentName": "NuxtLink", "prefetch": true, "prefetchOn": { "visibility": true } };
@@ -202,6 +204,7 @@ function defineNuxtPlugin(plugin2) {
   return Object.assign(plugin2.setup || (() => {
   }), plugin2, { [NuxtPluginIndicator]: true, _name });
 }
+const definePayloadPlugin = defineNuxtPlugin;
 function callWithNuxt(nuxt, setup, args) {
   const fn = () => setup();
   const nuxtAppCtx = getNuxtAppCtx(nuxt._id);
@@ -409,6 +412,28 @@ function injectHead() {
   const head = inject$1(headSymbol);
   return head || getActiveHead();
 }
+async function getRouteRules(arg) {
+  const path = typeof arg === "string" ? arg : arg.path;
+  {
+    useNuxtApp().ssrContext._preloadManifest = true;
+    const _routeRulesMatcher = toRouteMatcher(
+      createRouter$1({ routes: (/* @__PURE__ */ useRuntimeConfig()).nitro.routeRules })
+    );
+    return defu({}, ..._routeRulesMatcher.matchAll(path).reverse());
+  }
+}
+function definePayloadReducer(name, reduce) {
+  {
+    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
+  }
+}
+const payloadPlugin = definePayloadPlugin(() => {
+  definePayloadReducer(
+    "skipHydrate",
+    // We need to return something truthy to be treated as a match
+    (data) => !shouldHydrate(data) && 1
+  );
+});
 [CapoPlugin({ track: true })];
 const unhead_KgADcZ0jPj = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:head",
@@ -561,43 +586,43 @@ const wrapInKeepAlive = (props, children) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
-async function getRouteRules(arg) {
-  const path = typeof arg === "string" ? arg : arg.path;
-  {
-    useNuxtApp().ssrContext._preloadManifest = true;
-    const _routeRulesMatcher = toRouteMatcher(
-      createRouter$1({ routes: (/* @__PURE__ */ useRuntimeConfig()).nitro.routeRules })
-    );
-    return defu({}, ..._routeRulesMatcher.matchAll(path).reverse());
-  }
-}
 function handleHotUpdate(_router, _generateRoutes) {
 }
 const _routes = [
   {
     name: "dashboard",
     path: "/dashboard",
-    component: () => import('./dashboard-JDBusdJB.mjs')
+    component: () => import('./dashboard-BUg32FSH.mjs')
+  },
+  {
+    name: "goals",
+    path: "/goals",
+    component: () => import('./goals-BK6ojF0a.mjs')
   },
   {
     name: "healthForm",
     path: "/healthForm",
-    component: () => import('./healthForm-tNwGz8ZX.mjs')
+    component: () => import('./healthForm-nan82jd-.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-Clnhh28s.mjs')
+    component: () => import('./index-BEvXPS4V.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-CYGbBCIY.mjs')
+    component: () => import('./login-ARdB8Zqh.mjs')
+  },
+  {
+    name: "settings",
+    path: "/settings",
+    component: () => import('./settings-SeUO3M3g.mjs')
   },
   {
     name: "signup",
     path: "/signup",
-    component: () => import('./signup-BsaTgigK.mjs')
+    component: () => import('./signup-B7jH1mPZ.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -725,7 +750,7 @@ const globalMiddleware = [
   manifest_45route_45rule
 ];
 const namedMiddleware = {};
-const plugin = /* @__PURE__ */ defineNuxtPlugin({
+const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:router",
   enforce: "pre",
   async setup(nuxtApp) {
@@ -911,11 +936,6 @@ const plugin = /* @__PURE__ */ defineNuxtPlugin({
     return { provide: { router } };
   }
 });
-function definePayloadReducer(name, reduce) {
-  {
-    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
-  }
-}
 const reducers = [
   ["NuxtError", (data) => isNuxtError(data) && data.toJSON()],
   ["EmptyShallowRef", (data) => isRef(data) && isShallow(data) && !data.value && (typeof data.value === "bigint" ? "0n" : JSON.stringify(data.value) || "_")],
@@ -931,6 +951,22 @@ const revive_payload_server_eJ33V7gbc6 = /* @__PURE__ */ defineNuxtPlugin({
     for (const [reducer, fn] of reducers) {
       definePayloadReducer(reducer, fn);
     }
+  }
+});
+const plugin = /* @__PURE__ */ defineNuxtPlugin({
+  name: "pinia",
+  setup(nuxtApp) {
+    const pinia = createPinia();
+    nuxtApp.vueApp.use(pinia);
+    setActivePinia(pinia);
+    {
+      nuxtApp.payload.pinia = toRaw(pinia.state.value);
+    }
+    return {
+      provide: {
+        pinia
+      }
+    };
   }
 });
 const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
@@ -3704,12 +3740,115 @@ const vuetify_7h9QAQEssH = /* @__PURE__ */ defineNuxtPlugin((app) => {
   app.vueApp.use(vuetify);
 });
 const plugins = [
+  payloadPlugin,
   unhead_KgADcZ0jPj,
-  plugin,
+  plugin$1,
   revive_payload_server_eJ33V7gbc6,
+  plugin,
   components_plugin_KR1HBZs4kY,
   vuetify_7h9QAQEssH
 ];
+const layouts = {};
+const LayoutLoader = defineComponent$1({
+  name: "LayoutLoader",
+  inheritAttrs: false,
+  props: {
+    name: String,
+    layoutProps: Object
+  },
+  setup(props, context) {
+    return () => h(layouts[props.name], props.layoutProps, context.slots);
+  }
+});
+const __nuxt_component_0 = defineComponent$1({
+  name: "NuxtLayout",
+  inheritAttrs: false,
+  props: {
+    name: {
+      type: [String, Boolean, Object],
+      default: null
+    },
+    fallback: {
+      type: [String, Object],
+      default: null
+    }
+  },
+  setup(props, context) {
+    const nuxtApp = useNuxtApp();
+    const injectedRoute = inject$1(PageRouteSymbol);
+    const route = injectedRoute === useRoute() ? useRoute$1() : injectedRoute;
+    const layout = computed(() => {
+      let layout2 = unref(props.name) ?? route.meta.layout ?? "default";
+      if (layout2 && !(layout2 in layouts)) {
+        if (props.fallback) {
+          layout2 = unref(props.fallback);
+        }
+      }
+      return layout2;
+    });
+    const layoutRef = ref();
+    context.expose({ layoutRef });
+    const done = nuxtApp.deferHydration();
+    return () => {
+      const hasLayout = layout.value && layout.value in layouts;
+      const transitionProps = route.meta.layoutTransition ?? appLayoutTransition;
+      return _wrapIf(Transition, hasLayout && transitionProps, {
+        default: () => h(Suspense, { suspensible: true, onResolve: () => {
+          nextTick(done);
+        } }, {
+          default: () => h(
+            LayoutProvider,
+            {
+              layoutProps: mergeProps(context.attrs, { ref: layoutRef }),
+              key: layout.value || undefined,
+              name: layout.value,
+              shouldProvide: !props.name,
+              hasTransition: !!transitionProps
+            },
+            context.slots
+          )
+        })
+      }).default();
+    };
+  }
+});
+const LayoutProvider = defineComponent$1({
+  name: "NuxtLayoutProvider",
+  inheritAttrs: false,
+  props: {
+    name: {
+      type: [String, Boolean]
+    },
+    layoutProps: {
+      type: Object
+    },
+    hasTransition: {
+      type: Boolean
+    },
+    shouldProvide: {
+      type: Boolean
+    }
+  },
+  setup(props, context) {
+    const name = props.name;
+    if (props.shouldProvide) {
+      provide(LayoutMetaSymbol, {
+        isCurrent: (route) => name === (route.meta.layout ?? "default")
+      });
+    }
+    return () => {
+      var _a, _b;
+      if (!name || typeof name === "string" && !(name in layouts)) {
+        return (_b = (_a = context.slots).default) == null ? undefined : _b.call(_a);
+      }
+      return h(
+        LayoutLoader,
+        { key: name, layoutProps: props.layoutProps, name },
+        context.slots
+      );
+    };
+  }
+});
 const RouteProvider = defineComponent$1({
   props: {
     vnode: {
@@ -3740,7 +3879,7 @@ const RouteProvider = defineComponent$1({
     };
   }
 });
-const __nuxt_component_0 = defineComponent$1({
+const __nuxt_component_1 = defineComponent$1({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -3857,27 +3996,304 @@ function hasChildrenRoutes(fork, newRoute, Component) {
   });
   return index < newRoute.matched.length - 1;
 }
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
+const useUserStore = defineStore("user", {
+  state: () => ({
+    form: {
+      sexe: "",
+      size: null,
+      years: null,
+      weight: null,
+      activity: "",
+      calories: null,
+      macros: {
+        carbs: 0,
+        lipids: 0,
+        proteins: 0
+      },
+      adjusted: false
+    },
+    goals: {
+      goal: "",
+      target_calories: 0,
+      target_carbs: 0,
+      target_lipids: 0,
+      target_proteins: 0
+    },
+    recipes: {
+      recipeNames: [],
+      add_calories: 0,
+      totalCalories: 0,
+      totalCarbs: 0,
+      totalLipids: 0,
+      totalProteins: 0,
+      lastResetDate: null
+    },
+    lastGoal: "",
+    token: ""
+  }),
+  getters: {
+    isAuthenticated: (state) => !!state.token
+  },
+  actions: {
+    initializeStore() {
+      const savedToken = localStorage.getItem("token");
+      if (savedToken) {
+        this.token = savedToken;
+        this.loadNutrition();
+      }
+    },
+    // Fonction de mise a jour du token, des formualaires et de la connection
+    setToken(newToken) {
+      this.token = newToken;
+      localStorage.setItem("token", newToken);
+    },
+    logout() {
+      this.token = "";
+      this.form = { sexe: "", size: null, years: null, weight: null, activity: "", calories: null };
+      this.goals = {
+        goal: "",
+        target_calories: 0,
+        target_carbs: 0,
+        target_lipids: 0,
+        target_proteins: 0
+      };
+    },
+    updateForm(newData) {
+      this.$patch({
+        form: {
+          ...this.form,
+          ...newData
+        }
+      });
+    },
+    // Processus d'inscription
+    async signup(email, password) {
+      try {
+        const response = await $fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: { email, password }
+        });
+        if (!response.success) {
+          throw new Error(response.error || "Signup échoué");
+        }
+        this.setToken(response.token);
+        await this.loadNutrition();
+      } catch (err) {
+        console.error("Erreur signup :", err);
+        throw err;
+      }
+    },
+    // Processus de connection
+    async signin(email, password) {
+      try {
+        const response = await $fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: { email, password }
+        });
+        if (!response.success) {
+          throw new Error(response.error || "Signin échoué");
+        }
+        this.setToken(response.token);
+        await this.loadNutrition();
+      } catch (err) {
+        console.error("Erreur signup :", err);
+        throw err;
+      }
+    },
+    // Insertion des données de l'utilisateur
+    async saveNutrition() {
+      console.log("Contexte du store dans saveNutrition:", this);
+      try {
+        const response = await $fetch("/api/user", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          },
+          body: this.form
+        });
+        if (!response.success) {
+          throw new Error(response.error || "Enregistrement échoué");
+        }
+        console.log("Enregistrement OK, insertId = ", response.insertId);
+      } catch (err) {
+        console.error("Erreur saveNutrition :", err);
+      }
+    },
+    // Mise a jour des données de l'utilisateur 
+    async updateUserData(updatedForm) {
+      try {
+        const response = await $fetch("/api/updateData", {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-Type": "application/json"
+          },
+          body: updatedForm
+        });
+        this.form = {
+          ...this.form,
+          ...response.data
+        };
+      } catch (err) {
+        console.error("Erreur updateUserData :", err);
+        throw err;
+      }
+    },
+    // Ajout des objectifs de l'utilsiateur
+    async addUserGoals() {
+      try {
+        const response = await $fetch("/api/addGoals", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-Type": "application/json"
+          },
+          body: {
+            goals: this.goals.goal
+          }
+        });
+        const goalsData = Array.isArray(response.data.goals) && response.data.goals.length > 0 ? response.data.goals[0] : {};
+        this.$patch({
+          goals: goalsData
+        });
+      } catch (err) {
+        console.error("Erreur addUserGoalsData :", err.stack);
+        throw err;
+      }
+    },
+    async updateUserGoals() {
+      try {
+        const response = await $fetch("/api/updateGoals", {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-Type": "application/json"
+          },
+          body: {
+            goals: this.goals.goal
+          }
+        });
+        const goalsData = Array.isArray(response.data.goals) && response.data.goals.length > 0 ? response.data.goals[0] : {};
+        this.$patch({
+          goals: goalsData
+        });
+      } catch (err) {
+        console.error("Erreur updateUserGoalsData :", err.stack);
+        throw err;
+      }
+    },
+    // Ajout et mise a jour des recettes de l'utilisateur 
+    addIngredient(ingredient) {
+      if (!this.recipes.recipeNames) {
+        this.recipes.recipeNames = [];
+      }
+      this.recipes.recipeNames = [
+        ...this.recipes.recipeNames,
+        ingredient.label
+      ];
+      this.recipes.totalCalories += ingredient.calories;
+      this.recipes.totalProteins += ingredient.proteins;
+      this.recipes.totalCarbs += ingredient.carbs;
+      this.recipes.totalLipids += ingredient.lipids;
+    },
+    async saveRecipes() {
+      try {
+        const response = await $fetch("/api/addRecipes", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-Type": "application/json"
+          },
+          body: {
+            names: this.recipes.recipeNames,
+            calories: this.recipes.totalCalories,
+            proteins: this.recipes.totalProteins,
+            carbs: this.recipes.totalCarbs,
+            lipids: this.recipes.totalLipids
+          }
+        });
+        return response;
+      } catch (err) {
+        console.error("Erreur:", err);
+      }
+    },
+    resetDailyCalories() {
+      this.recipes = {
+        recipeNames: [],
+        totalCalories: 0,
+        totalCarbs: 0,
+        totalLipids: 0,
+        totalProteins: 0
+      };
+      console.log("Calories quotidiennes réinitialisées.");
+    },
+    // Requête GET pour recuperer les données a afficher par défaut
+    async loadNutrition() {
+      console.log("Token utilisé :", this.token);
+      try {
+        const response = await $fetch("/api/getData", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          }
+        });
+        console.log(response);
+        if (!response.success) {
+          throw new Error(response.error || "Aucune donnée trouvée");
+        }
+        const nutritionData = Array.isArray(response.data.nutrition) && response.data.nutrition.length > 0 ? response.data.nutrition[0] : {};
+        const goalsData = Array.isArray(response.data.goals) && response.data.goals.length > 0 ? response.data.goals[0] : {};
+        const recipesData = Array.isArray(response.data.recipes) && response.data.recipes.length > 0 ? response.data.recipes[0] : {};
+        this.$patch({
+          form: nutritionData,
+          goals: goalsData,
+          recipes: recipesData
+        });
+        console.log("form :", this.form);
+        console.log("goals :", this.goals);
+        console.log("recipes :", this.recipes);
+        console.log("lastResetDate:", this.lastResetDate);
+      } catch (err) {
+        console.error("Erreur loadNutrition :", err.message, err.stack);
+      }
+    }
   }
-  return target;
+});
+const _sfc_main$2 = {
+  __name: "app",
+  __ssrInlineRender: true,
+  setup(__props) {
+    useUserStore();
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NuxtLayout = __nuxt_component_0;
+      const _component_NuxtPage = __nuxt_component_1;
+      _push(ssrRenderComponent(_component_NuxtLayout, _attrs, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_component_NuxtPage)
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+    };
+  }
 };
-const _sfc_main$2 = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  const _component_NuxtPage = __nuxt_component_0;
-  _push(`<main${ssrRenderAttrs(_attrs)}>`);
-  _push(ssrRenderComponent(_component_NuxtPage, null, null, _parent));
-  _push(`</main>`);
-}
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : undefined;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender]]);
 const _sfc_main$1 = {
   __name: "nuxt-error-page",
   __ssrInlineRender: true,
@@ -3899,8 +4315,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = undefined;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-dCPUF1NO.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-Ev-21Say.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-CZWkfogp.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-DnpQMNX4.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -3947,7 +4363,7 @@ const _sfc_main = {
           } else if (unref(SingleRenderer)) {
             ssrRenderVNode(_push, createVNode(resolveDynamicComponent(unref(SingleRenderer)), null, null), _parent);
           } else {
-            _push(ssrRenderComponent(unref(AppComponent), null, null, _parent));
+            _push(ssrRenderComponent(unref(_sfc_main$2), null, null, _parent));
           }
         },
         _: 1
@@ -3981,5 +4397,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { matchesSelector as $, isParsableColor as A, parseColor as B, getForeground as C, getCurrentInstanceName as D, deepEqual as E, wrapInArray as F, consoleWarn as G, useIcon as H, IconValue as I, flattenFragments as J, hasEvent as K, isObject as L, keyCodes as M, EventProp as N, useLocale as O, isOn as P, pick as Q, only as R, filterInputAttrs as S, callEvent as T, consoleError as U, defineComponent as V, deprecate as W, getPropertyFromItem as X, omit as Y, focusChild as Z, _export_sfc as _, navigateTo as a, makeDisplayProps as a0, useDisplay as a1, useGoTo as a2, focusableChildren as a3, defer as a4, isClickInsideElement as a5, getNextElement as a6, debounce as a7, ensureValidVNode as a8, checkPrintable as a9, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, breakpoints as e, getUid as f, genericComponent as g, getCurrentInstance as h, injectHead as i, convertToUnit as j, findChildrenWithProvide as k, provideTheme as l, makeThemeProps as m, nuxtLinkDefaults as n, useRtl as o, propsFactory as p, provideDefaults as q, resolveRouteObject as r, clamp as s, useProxiedModel as t, useRouter as u, useToggleScope as v, includes as w, templateRef as x, destructComputed as y, isCssColor as z };
+export { isOn as $, destructComputed as A, isCssColor as B, isParsableColor as C, parseColor as D, getForeground as E, getCurrentInstanceName as F, deepEqual as G, wrapInArray as H, IconValue as I, consoleWarn as J, useIcon as K, flattenFragments as L, hasEvent as M, isObject as N, keyCodes as O, consoleError as P, defineComponent as Q, EventProp as R, deprecate as S, getPropertyFromItem as T, omit as U, focusChild as V, defer as W, matchesSelector as X, isClickInsideElement as Y, getNextElement as Z, focusableChildren as _, navigateTo as a, pick as a0, only as a1, filterInputAttrs as a2, callEvent as a3, makeDisplayProps as a4, useDisplay as a5, useGoTo as a6, debounce as a7, ensureValidVNode as a8, checkPrintable as a9, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useProxiedModel as e, provideTheme as f, genericComponent as g, useLocale as h, injectHead as i, useUserStore as j, breakpoints as k, getUid as l, makeThemeProps as m, nuxtLinkDefaults as n, getCurrentInstance as o, propsFactory as p, convertToUnit as q, resolveRouteObject as r, findChildrenWithProvide as s, useRtl as t, useRouter as u, provideDefaults as v, clamp as w, useToggleScope as x, includes as y, templateRef as z };
 //# sourceMappingURL=server.mjs.map

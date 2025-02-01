@@ -1,49 +1,40 @@
 import { defineEventHandler, readBody, createError } from 'h3';
 import mysql from 'mysql2/promise';
+import { pool } from '../db';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  });
-
   try {
     const userId = event.context.user?.id;
-    
-    if (!userId) {
-        throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-      }
 
-    const [result] = await connection.execute(
-      `INSERT INTO nutrition (sexe, size, years, weight, activity, user_id) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
+    if (!userId) {
+      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
+    }
+
+    const [result] = await pool.execute(
+      `INSERT INTO nutrition (sexe, size, years, weight, activity, calories, user_id) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
         body.sexe,
         body.size,
         body.years,
         body.weight,
         body.activity,
-        userId
+        body.calories,
+        userId,
       ]
     );
 
     return {
       success: true,
-      insertId: result.insertId
+      insertId: result.insertId,
     };
-  } catch (err) {
-    console.error('Erreur MySQL :', err);
+  } catch (error) {
+    console.error('Erreur lors de l\'insertion dans nutrition:', error);
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Erreur lors de l\'insertion dans la table nutrition',
-      data: err
+      statusCode: error.statusCode || 500,
+      statusMessage: error.message || 'Erreur interne du serveur',
     });
-  } finally {
-    await connection.end();
   }
 });
