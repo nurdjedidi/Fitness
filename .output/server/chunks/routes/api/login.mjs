@@ -11,6 +11,7 @@ import 'mysql2/promise';
 
 const login = defineEventHandler(async (event) => {
   const body = await readBody(event);
+  console.log("Body re\xE7u :", body);
   if (!body.email || !body.password) {
     return { error: "Email and password are required" };
   }

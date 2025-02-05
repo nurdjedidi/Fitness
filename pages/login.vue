@@ -1,34 +1,36 @@
 <template>
   <section class="intro-img">
     <div class="overlay"></div>
-  <v-container class="d-flex justify-center align-center" style="height: 100vh;">
-    <v-card class="glass-card pa-12 rounded-lg shadow-sm" elevation="3" max-width="600" color="transparent">
-      <v-card-title class="text-h5 font-weight-bold text-center mb-4">Sign In to Your Account</v-card-title>
-      <v-form class="d-flex flex-column" @submit.prevent="handleSignin">
-        <v-text-field v-model="form.email" label="Email" type="email" name="email" variant="outlined" density="comfortable" color="primary" required></v-text-field>
-        <v-text-field v-model="form.password" :type="showPassword ? 'text' : 'password'"  label="Password" type="password" name="password" variant="outlined" density="comfortable" color="primary" required>
-          <template v-slot:append-inner>
-    <v-icon @click="togglePasswordVisibility" class="cursor-pointer">
-      {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
-    </v-icon>
-  </template>
-        </v-text-field>
-        <NuxtLink class="signup-link mb-6" to="/signup">Don't have an account?</NuxtLink>
-        <v-btn class="submit-btn" type="submit" :loading="loading" aria-label="Sign In">
-          Sign In
-        </v-btn>
-      </v-form>
-    </v-card>
-  </v-container>
+    <v-container class="d-flex justify-center align-center" style="height: 100vh;">
+      <v-card class="glass-card pa-12 rounded-lg shadow-sm" elevation="3" max-width="600" color="transparent">
+        <v-card-title class="text-h5 font-weight-bold text-center mb-4">Sign In to Your Account</v-card-title>
+        <v-form class="d-flex flex-column" @submit.prevent="handleSignin">
+          <v-text-field v-model="form.email" label="Email" type="email" name="email" variant="outlined"
+            density="comfortable" color="primary" required></v-text-field>
+          <v-text-field v-model="form.password" :type="showPassword ? 'text' : 'password'" label="Password"
+            type="password" name="password" variant="outlined" density="comfortable" color="primary" required>
+            <template v-slot:append-inner>
+              <v-icon @click="togglePasswordVisibility" class="cursor-pointer">
+                {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
+              </v-icon>
+            </template>
+          </v-text-field>
+          <NuxtLink class="signup-link mb-6" to="/signup">Don't have an account?</NuxtLink>
+          <v-btn class="submit-btn" type="submit" :loading="loading" aria-label="Sign In">
+            Sign In
+          </v-btn>
+        </v-form>
+      </v-card>
+    </v-container>
   </section>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-   import { useUserStore } from '~/stores/userStore';
-   const router = useRouter();
-   const userStore = useUserStore();
+import { useUserStore } from '~/stores/userStore';
+const router = useRouter();
+const userStore = useUserStore();
 
 const form = ref({
   email: '',
@@ -41,7 +43,7 @@ const handleSignin = async () => {
   loading.value = true
   try {
     await userStore.signin(form.value.email, form.value.password)
-    router.push('/dashboard') 
+    router.push('/dashboard')
   } catch (err) {
     console.error(err.message)
   } finally {
@@ -72,10 +74,10 @@ const togglePasswordVisibility = () => {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.2); 
-  backdrop-filter: blur(10px); 
-  -webkit-backdrop-filter: blur(10px); 
-  border: 1px solid rgba(255, 255, 255, 0.3); 
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -98,5 +100,3 @@ const togglePasswordVisibility = () => {
   color: #7D3C98;
 }
 </style>
-
-  

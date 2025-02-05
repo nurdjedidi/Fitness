@@ -308,12 +308,6 @@ export const useUserStore = defineStore('user', {
           goals: goalsData,
           recipes: recipesData
         });
-
-
-        console.log("form :", this.form);
-        console.log("goals :", this.goals);
-        console.log("recipes :", this.recipes);
-        console.log("lastResetDate:", this.lastResetDate);
       } catch (err) {
         console.error('Erreur loadNutrition :', err.message, err.stack)
       }
