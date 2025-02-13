@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <Navigation />
     <v-main>
       <v-container>
         <v-row>

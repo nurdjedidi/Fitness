@@ -1,4 +1,4 @@
-import { version as version$1, unref, inject as inject$1, watch, onScopeDispose, Fragment, reactive, computed, watchEffect, toRefs, capitalize, isVNode, Comment, shallowRef, warn, getCurrentInstance as getCurrentInstance$1, ref, provide, defineComponent as defineComponent$1, toRaw, createVNode, mergeProps, h, shallowReactive, Suspense, nextTick, Transition, hasInjectionContext, effectScope, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, useSSRContext, toRef, withCtx, defineAsyncComponent, isReadonly, isRef, isShallow, isReactive } from 'vue';
+import { version as version$1, unref, inject as inject$1, watch, onScopeDispose, Fragment, reactive, computed, watchEffect, toRefs, capitalize, isVNode, Comment, shallowRef, warn, getCurrentInstance as getCurrentInstance$1, ref, provide, defineComponent as defineComponent$1, toRaw, createVNode, mergeProps, defineAsyncComponent, h, shallowReactive, Suspense, nextTick, Transition, hasInjectionContext, effectScope, createApp, getCurrentScope, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, useSSRContext, toRef, withCtx, isReadonly, isRef, isShallow, isReactive } from 'vue';
 import { $ as $fetch$1, l as hasProtocol, m as isScriptProtocol, n as joinURL, w as withQuery, o as defu, p as sanitizeStatusCode, q as getContext, v as createHooks, e as createError$1, x as toRouteMatcher, y as createRouter$1 } from '../_/nitro.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { defineStore, createPinia, setActivePinia, shouldHydrate } from 'pinia';
@@ -590,39 +590,44 @@ function handleHotUpdate(_router, _generateRoutes) {
 }
 const _routes = [
   {
-    name: "dashboard",
-    path: "/dashboard",
-    component: () => import('./dashboard-BUg32FSH.mjs')
+    name: "fitness",
+    path: "/fitness",
+    component: () => import('./fitness-DEELYKCr.mjs')
   },
   {
     name: "goals",
     path: "/goals",
-    component: () => import('./goals-BK6ojF0a.mjs')
+    component: () => import('./goals-BZZWm9Rp.mjs')
   },
   {
     name: "healthForm",
     path: "/healthForm",
-    component: () => import('./healthForm-nan82jd-.mjs')
+    component: () => import('./healthForm-CTzcb4rD.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-DKTHrlpF.mjs')
+    component: () => import('./index-CtXkjDcO.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-ARdB8Zqh.mjs')
+    component: () => import('./login-CK-LEkl6.mjs')
+  },
+  {
+    name: "overview",
+    path: "/overview",
+    component: () => import('./overview-B1rXfEue.mjs')
   },
   {
     name: "settings",
     path: "/settings",
-    component: () => import('./settings-SeUO3M3g.mjs')
+    component: () => import('./settings-BWEV0-cY.mjs')
   },
   {
     name: "signup",
     path: "/signup",
-    component: () => import('./signup-B7jH1mPZ.mjs')
+    component: () => import('./signup-B8aRAiXL.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -3748,7 +3753,9 @@ const plugins = [
   components_plugin_KR1HBZs4kY,
   vuetify_7h9QAQEssH
 ];
-const layouts = {};
+const layouts = {
+  dashboard: defineAsyncComponent(() => import('./dashboard-BgkXQ7h9.mjs').then((m) => m.default || m))
+};
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
   inheritAttrs: false,
@@ -3760,7 +3767,7 @@ const LayoutLoader = defineComponent$1({
     return () => h(layouts[props.name], props.layoutProps, context.slots);
   }
 });
-const __nuxt_component_0 = defineComponent$1({
+const __nuxt_component_0$1 = defineComponent$1({
   name: "NuxtLayout",
   inheritAttrs: false,
   props: {
@@ -3879,7 +3886,7 @@ const RouteProvider = defineComponent$1({
     };
   }
 });
-const __nuxt_component_1 = defineComponent$1({
+const __nuxt_component_0 = defineComponent$1({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -4267,9 +4274,9 @@ const _sfc_main$2 = {
   setup(__props) {
     useUserStore();
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtLayout = __nuxt_component_0;
-      const _component_NuxtPage = __nuxt_component_1;
-      _push(ssrRenderComponent(_component_NuxtLayout, _attrs, {
+      const _component_NuxtLayout = __nuxt_component_0$1;
+      const _component_NuxtPage = __nuxt_component_0;
+      _push(ssrRenderComponent(_component_NuxtLayout, mergeProps({ name: "dashboard" }, _attrs), {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
@@ -4393,5 +4400,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { isOn as $, destructComputed as A, isCssColor as B, isParsableColor as C, parseColor as D, getForeground as E, getCurrentInstanceName as F, deepEqual as G, wrapInArray as H, IconValue as I, consoleWarn as J, useIcon as K, flattenFragments as L, hasEvent as M, isObject as N, keyCodes as O, consoleError as P, defineComponent as Q, EventProp as R, deprecate as S, getPropertyFromItem as T, omit as U, focusChild as V, defer as W, matchesSelector as X, isClickInsideElement as Y, getNextElement as Z, focusableChildren as _, navigateTo as a, pick as a0, only as a1, filterInputAttrs as a2, callEvent as a3, makeDisplayProps as a4, useDisplay as a5, useGoTo as a6, debounce as a7, ensureValidVNode as a8, checkPrintable as a9, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useProxiedModel as e, provideTheme as f, genericComponent as g, useLocale as h, injectHead as i, useUserStore as j, breakpoints as k, getUid as l, makeThemeProps as m, nuxtLinkDefaults as n, getCurrentInstance as o, propsFactory as p, convertToUnit as q, resolveRouteObject as r, findChildrenWithProvide as s, useRtl as t, useRouter as u, provideDefaults as v, clamp as w, useToggleScope as x, includes as y, templateRef as z };
+export { focusableChildren as $, getCurrentInstanceName as A, useProxiedModel as B, deepEqual as C, wrapInArray as D, consoleWarn as E, useIcon as F, flattenFragments as G, clamp as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, breakpoints as M, consoleError as N, defer as O, matchesSelector as P, useToggleScope as Q, defineComponent as R, EventProp as S, deprecate as T, getPropertyFromItem as U, omit as V, focusChild as W, filterInputAttrs as X, makeDisplayProps as Y, useDisplay as Z, useGoTo as _, navigateTo as a, useLocale as a0, debounce as a1, ensureValidVNode as a2, checkPrintable as a3, only as a4, isOn as a5, pick as a6, callEvent as a7, isClickInsideElement as a8, getNextElement as a9, __nuxt_component_0 as aa, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useUserStore as e, getCurrentInstance as f, getUid as g, convertToUnit as h, injectHead as i, findChildrenWithProvide as j, genericComponent as k, provideTheme as l, makeThemeProps as m, nuxtLinkDefaults as n, useRtl as o, propsFactory as p, includes as q, resolveRouteObject as r, provideDefaults as s, templateRef as t, useRouter as u, destructComputed as v, isCssColor as w, isParsableColor as x, parseColor as y, getForeground as z };
 //# sourceMappingURL=server.mjs.map
