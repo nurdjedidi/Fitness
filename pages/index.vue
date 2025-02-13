@@ -28,6 +28,12 @@
   </v-app>
 </template>
 
+<script lang="ts" setup>
+definePageMeta({
+  layout: 'empty'
+})
+</script>
+
 <style scoped>
 .intro-img {
   position: relative;

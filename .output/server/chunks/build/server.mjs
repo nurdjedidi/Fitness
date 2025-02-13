@@ -586,48 +586,71 @@ const wrapInKeepAlive = (props, children) => {
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+const __nuxt_page_meta$6 = {
+  layout: "dashboard"
+};
+const __nuxt_page_meta$5 = {
+  layout: "empty"
+};
+const __nuxt_page_meta$4 = {
+  layout: "empty"
+};
+const __nuxt_page_meta$3 = {
+  layout: "empty"
+};
+const __nuxt_page_meta$2 = {
+  layout: "dashboard"
+};
+const __nuxt_page_meta$1 = {
+  layout: "dashboard"
+};
+const __nuxt_page_meta = {
+  layout: "empty"
+};
 function handleHotUpdate(_router, _generateRoutes) {
 }
 const _routes = [
   {
-    name: "fitness",
-    path: "/fitness",
-    component: () => import('./fitness-DEELYKCr.mjs')
-  },
-  {
     name: "goals",
     path: "/goals",
-    component: () => import('./goals-BZZWm9Rp.mjs')
+    meta: __nuxt_page_meta$6,
+    component: () => import('./goals-Qht1F2lo.mjs')
   },
   {
     name: "healthForm",
     path: "/healthForm",
-    component: () => import('./healthForm-CTzcb4rD.mjs')
+    meta: __nuxt_page_meta$5,
+    component: () => import('./healthForm-DmowPr3V.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CtXkjDcO.mjs')
+    meta: __nuxt_page_meta$4,
+    component: () => import('./index-Dsc5q_KN.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-CK-LEkl6.mjs')
+    meta: __nuxt_page_meta$3,
+    component: () => import('./login-PuY7Dwk_.mjs')
   },
   {
     name: "overview",
     path: "/overview",
-    component: () => import('./overview-B1rXfEue.mjs')
+    meta: __nuxt_page_meta$2,
+    component: () => import('./overview-6YYUeRBg.mjs')
   },
   {
     name: "settings",
     path: "/settings",
-    component: () => import('./settings-BWEV0-cY.mjs')
+    meta: __nuxt_page_meta$1,
+    component: () => import('./settings-5QaB_XhG.mjs')
   },
   {
     name: "signup",
     path: "/signup",
-    component: () => import('./signup-B8aRAiXL.mjs')
+    meta: __nuxt_page_meta,
+    component: () => import('./signup-D82uxtfz.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -3754,7 +3777,8 @@ const plugins = [
   vuetify_7h9QAQEssH
 ];
 const layouts = {
-  dashboard: defineAsyncComponent(() => import('./dashboard-BgkXQ7h9.mjs').then((m) => m.default || m))
+  dashboard: defineAsyncComponent(() => import('./dashboard-knnK7VgY.mjs').then((m) => m.default || m)),
+  empty: defineAsyncComponent(() => import('./empty-CvLZvJWP.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -4276,7 +4300,7 @@ const _sfc_main$2 = {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLayout = __nuxt_component_0$1;
       const _component_NuxtPage = __nuxt_component_0;
-      _push(ssrRenderComponent(_component_NuxtLayout, mergeProps({ name: "dashboard" }, _attrs), {
+      _push(ssrRenderComponent(_component_NuxtLayout, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
@@ -4400,5 +4424,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { focusableChildren as $, getCurrentInstanceName as A, useProxiedModel as B, deepEqual as C, wrapInArray as D, consoleWarn as E, useIcon as F, flattenFragments as G, clamp as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, breakpoints as M, consoleError as N, defer as O, matchesSelector as P, useToggleScope as Q, defineComponent as R, EventProp as S, deprecate as T, getPropertyFromItem as U, omit as V, focusChild as W, filterInputAttrs as X, makeDisplayProps as Y, useDisplay as Z, useGoTo as _, navigateTo as a, useLocale as a0, debounce as a1, ensureValidVNode as a2, checkPrintable as a3, only as a4, isOn as a5, pick as a6, callEvent as a7, isClickInsideElement as a8, getNextElement as a9, __nuxt_component_0 as aa, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useUserStore as e, getCurrentInstance as f, getUid as g, convertToUnit as h, injectHead as i, findChildrenWithProvide as j, genericComponent as k, provideTheme as l, makeThemeProps as m, nuxtLinkDefaults as n, useRtl as o, propsFactory as p, includes as q, resolveRouteObject as r, provideDefaults as s, templateRef as t, useRouter as u, destructComputed as v, isCssColor as w, isParsableColor as x, parseColor as y, getForeground as z };
+export { focusableChildren as $, provideDefaults as A, useProxiedModel as B, deepEqual as C, wrapInArray as D, consoleWarn as E, useIcon as F, flattenFragments as G, clamp as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, breakpoints as M, consoleError as N, defer as O, matchesSelector as P, useToggleScope as Q, defineComponent as R, EventProp as S, deprecate as T, getPropertyFromItem as U, omit as V, focusChild as W, filterInputAttrs as X, makeDisplayProps as Y, useDisplay as Z, useGoTo as _, navigateTo as a, useLocale as a0, debounce as a1, ensureValidVNode as a2, checkPrintable as a3, only as a4, isOn as a5, pick as a6, callEvent as a7, isClickInsideElement as a8, getNextElement as a9, __nuxt_component_0 as aa, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useUserStore as e, getCurrentInstance as f, getUid as g, convertToUnit as h, injectHead as i, findChildrenWithProvide as j, genericComponent as k, provideTheme as l, makeThemeProps as m, nuxtLinkDefaults as n, useRtl as o, propsFactory as p, includes as q, resolveRouteObject as r, getCurrentInstanceName as s, templateRef as t, useRouter as u, destructComputed as v, isCssColor as w, isParsableColor as x, parseColor as y, getForeground as z };
 //# sourceMappingURL=server.mjs.map

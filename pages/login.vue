@@ -29,6 +29,11 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '~/stores/userStore';
+
+definePageMeta({
+  layout: 'empty'
+})
+
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -43,7 +48,7 @@ const handleSignin = async () => {
   loading.value = true
   try {
     await userStore.signin(form.value.email, form.value.password)
-    router.push('/dashboard')
+    router.push('/overview')
   } catch (err) {
     console.error(err.message)
   } finally {

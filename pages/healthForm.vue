@@ -34,6 +34,10 @@ import { ref } from 'vue';
 import { useUserStore } from '~/stores/userStore';
 import { useRouter } from 'vue-router';
 
+definePageMeta({
+  layout: 'empty'
+})
+
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -99,7 +103,7 @@ const userData = async () => {
 
     await userStore.saveNutrition();
 
-    router.push('/dashboard');
+    router.push('/overview');
   } catch (err) {
     console.error('Erreur:', err.message, err.stack);
   } finally {

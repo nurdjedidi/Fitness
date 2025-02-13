@@ -215,6 +215,10 @@ import axios from 'axios';
 import { useUserStore } from '~/stores/userStore';
 import { useRouter } from 'vue-router';
 
+definePageMeta({
+  layout: 'dashboard'
+})
+
 const router = useRouter();
 const userStore = useUserStore();
 const selectedFood = ref("");
@@ -328,7 +332,7 @@ const plans = async () => {
 
   console.log("✅ Nouvelle valeur de calories :", newCalories);
 
-  userStore.updateForm({ calories: newCalories})
+  userStore.updateForm({ calories: newCalories })
   console.log(userStore.form)
 }
 

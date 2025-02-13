@@ -22,6 +22,10 @@ const router = useRouter();
 const userStore = useUserStore();
 const activeSection = ref('user');
 
+definePageMeta({
+  layout: 'dashboard'
+})
+
 const returnDashboard = async () => {
   router.push('/dashboard');
 }
