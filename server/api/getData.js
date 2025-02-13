@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
             success: true,
             data: {
               nutrition: nutritionRows,
-              goals: goalsRows,
+              goals: goalsRows,        
               recipes: recipesRows
             }
         }

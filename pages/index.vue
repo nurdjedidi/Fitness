@@ -8,7 +8,7 @@
           <v-app-bar-nav-icon icon="mdi-nutrition"></v-app-bar-nav-icon>
         </template>
         <v-spacer></v-spacer>
-        <NuxtLink to="/login">
+        <NuxtLink to="/login" class="d-sm-none d-md-flex">
           <v-btn color="primary" class="login-btn" variant="outlined">Login</v-btn>
         </NuxtLink>
         <NuxtLink to="/signup">
