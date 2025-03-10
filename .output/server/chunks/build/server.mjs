@@ -614,43 +614,43 @@ const _routes = [
     name: "goals",
     path: "/goals",
     meta: __nuxt_page_meta$6,
-    component: () => import('./goals-Qht1F2lo.mjs')
+    component: () => import('./goals-ChIjoP20.mjs')
   },
   {
     name: "healthForm",
     path: "/healthForm",
     meta: __nuxt_page_meta$5,
-    component: () => import('./healthForm-DmowPr3V.mjs')
+    component: () => import('./healthForm-C1VXv_96.mjs')
   },
   {
     name: "index",
     path: "/",
     meta: __nuxt_page_meta$4,
-    component: () => import('./index-Dsc5q_KN.mjs')
+    component: () => import('./index-ZZGIcF-z.mjs')
   },
   {
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$3,
-    component: () => import('./login-PuY7Dwk_.mjs')
+    component: () => import('./login-bIqu3P_m.mjs')
   },
   {
     name: "overview",
     path: "/overview",
     meta: __nuxt_page_meta$2,
-    component: () => import('./overview-6YYUeRBg.mjs')
+    component: () => import('./overview-DS2Ugj7c.mjs')
   },
   {
     name: "settings",
     path: "/settings",
     meta: __nuxt_page_meta$1,
-    component: () => import('./settings-5QaB_XhG.mjs')
+    component: () => import('./settings-CiEK-b1v.mjs')
   },
   {
     name: "signup",
     path: "/signup",
     meta: __nuxt_page_meta,
-    component: () => import('./signup-D82uxtfz.mjs')
+    component: () => import('./signup-Cd9E57Ek.mjs')
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -1126,6 +1126,9 @@ const keyCodes = Object.freeze({
   pagedown: 34,
   shift: 16
 });
+function keys(o) {
+  return Object.keys(o);
+}
 function has(obj, key) {
   return key.every((k) => obj.hasOwnProperty(k));
 }
@@ -3777,8 +3780,8 @@ const plugins = [
   vuetify_7h9QAQEssH
 ];
 const layouts = {
-  dashboard: defineAsyncComponent(() => import('./dashboard-knnK7VgY.mjs').then((m) => m.default || m)),
-  empty: defineAsyncComponent(() => import('./empty-CvLZvJWP.mjs').then((m) => m.default || m))
+  dashboard: defineAsyncComponent(() => import('./dashboard-BK8r91sg.mjs').then((m) => m.default || m)),
+  empty: defineAsyncComponent(() => import('./empty-BYXULr9n.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent$1({
   name: "LayoutLoader",
@@ -4098,23 +4101,24 @@ const useUserStore = defineStore("user", {
       });
     },
     // Processus d'inscription
-    async signup(email, password) {
+    async signup({ name, email, password }) {
       try {
         const response = await $fetch("/api/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: { email, password }
+          body: { name, email, password }
         });
         if (!response.success) {
-          throw new Error(response.error || "Signup échoué");
+          throw new Error(response.error || "Inscription échouée");
         }
         this.setToken(response.token);
         await this.loadNutrition();
+        return response;
       } catch (err) {
         console.error("Erreur signup :", err);
-        throw err;
+        throw new Error(err.message || "Une erreur est survenue l'inscription");
       }
     },
     // Processus de connection
@@ -4128,13 +4132,14 @@ const useUserStore = defineStore("user", {
           body: { email, password }
         });
         if (!response.success) {
-          throw new Error(response.error || "Signin échoué");
+          throw new Error(response.error || "Connexion échouée");
         }
         this.setToken(response.token);
         await this.loadNutrition();
+        return response;
       } catch (err) {
-        console.error("Erreur signup :", err);
-        throw err;
+        console.error("Erreur signin :", err);
+        throw new Error(err.message || "Une erreur est survenue lors de la connexion");
       }
     },
     // Insertion des données de l'utilisateur
@@ -4424,5 +4429,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { focusableChildren as $, provideDefaults as A, useProxiedModel as B, deepEqual as C, wrapInArray as D, consoleWarn as E, useIcon as F, flattenFragments as G, clamp as H, IconValue as I, hasEvent as J, isObject as K, keyCodes as L, breakpoints as M, consoleError as N, defer as O, matchesSelector as P, useToggleScope as Q, defineComponent as R, EventProp as S, deprecate as T, getPropertyFromItem as U, omit as V, focusChild as W, filterInputAttrs as X, makeDisplayProps as Y, useDisplay as Z, useGoTo as _, navigateTo as a, useLocale as a0, debounce as a1, ensureValidVNode as a2, checkPrintable as a3, only as a4, isOn as a5, pick as a6, callEvent as a7, isClickInsideElement as a8, getNextElement as a9, __nuxt_component_0 as aa, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useUserStore as e, getCurrentInstance as f, getUid as g, convertToUnit as h, injectHead as i, findChildrenWithProvide as j, genericComponent as k, provideTheme as l, makeThemeProps as m, nuxtLinkDefaults as n, useRtl as o, propsFactory as p, includes as q, resolveRouteObject as r, getCurrentInstanceName as s, templateRef as t, useRouter as u, destructComputed as v, isCssColor as w, isParsableColor as x, parseColor as y, getForeground as z };
+export { focusChild as $, useProxiedModel as A, deepEqual as B, wrapInArray as C, findChildrenWithProvide as D, consoleWarn as E, convertToUnit as F, useIcon as G, flattenFragments as H, IconValue as I, clamp as J, hasEvent as K, isObject as L, keyCodes as M, makeDisplayProps as N, useDisplay as O, useGoTo as P, focusableChildren as Q, EventProp as R, useLocale as S, consoleError as T, matchesSelector as U, useToggleScope as V, defer as W, filterInputAttrs as X, omit as Y, isClickInsideElement as Z, getNextElement as _, navigateTo as a, debounce as a0, ensureValidVNode as a1, checkPrintable as a2, only as a3, isOn as a4, pick as a5, callEvent as a6, defineComponent as a7, deprecate as a8, getPropertyFromItem as a9, keys as aa, __nuxt_component_0 as ab, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useUserStore as e, useRtl as f, genericComponent as g, breakpoints as h, injectHead as i, provideDefaults as j, provideTheme as k, includes as l, makeThemeProps as m, nuxtLinkDefaults as n, getCurrentInstance as o, propsFactory as p, getCurrentInstanceName as q, resolveRouteObject as r, destructComputed as s, templateRef as t, useRouter as u, isCssColor as v, isParsableColor as w, parseColor as x, getForeground as y, getUid as z };
 //# sourceMappingURL=server.mjs.map

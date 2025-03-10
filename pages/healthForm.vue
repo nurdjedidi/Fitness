@@ -1,38 +1,84 @@
 <template>
-  <section class="intro-img">
-    <div class="overlay"></div>
-    <v-container class="d-flex justify-center align-center" style="height: 100vh;">
-      <v-card class="glass-card pa-12 rounded-lg shadow-sm" elevation="3" max-width="600" color="transparent">
-        <v-card-title class="text-h5 font-weight-bold text-center mb-4">
-          Let's build something great !
-        </v-card-title>
-        <v-divider class="my-5"></v-divider>
-        <v-form class="d-flex flex-column" @submit.prevent="userData">
-          <v-radio-group v-model="form.sexe" inline>
-            <v-radio label="Men" value="Men" class="mr-2"></v-radio>
-            <v-radio label="Women" value="Women"></v-radio>
-          </v-radio-group>
-          <v-text-field v-model="form.size" label="Size" type="text" name="size" variant="outlined"
-            density="comfortable" color="primary" required></v-text-field>
-          <v-text-field v-model="form.years" label="Years" type="text" name="years" variant="outlined"
-            density="comfortable" color="primary" required></v-text-field>
-          <v-text-field v-model="form.weight" label="Weight" type="text" name="weight" variant="outlined"
-            density="comfortable" color="primary" required></v-text-field>
-          <v-select v-model="form.activity" :items="items" density="comfortable" label="Activity" required></v-select>
-          <v-btn class="submit-btn" type="submit" :loading="loading" aria-label="Submit" color="primary">
-            Go to dashboard
-          </v-btn>
-        </v-form>
-      </v-card>
+  <section class="health-form-page">
+    <v-container class="d-flex align-center" style="min-height: 100vh;">
+      <v-row justify="center">
+        <v-col cols="12" md="8" lg="6">
+          <v-card class="health-card pa-8 rounded-lg" elevation="3">
+            <v-card-item class="text-center mb-6">
+              <v-card-title class="text-h4 font-weight-bold mb-2 text-white">
+                Customize Your Experience
+              </v-card-title>
+              <v-card-subtitle class="text-white">
+                Help us create your personalized nutrition plan
+              </v-card-subtitle>
+            </v-card-item>
+
+            <v-form @submit.prevent="userData">
+              <v-row>
+                <v-col cols="12">
+                  <div class="text-subtitle-1 mb-3 text-white">Gender</div>
+                  <v-radio-group v-model="form.sexe" inline class="mb-4"
+                    :rules="[v => !!v || 'Please select your gender']">
+                    <v-radio label="Male" value="homme" color="primary"></v-radio>
+                    <v-radio label="Female" value="femme" color="primary"></v-radio>
+                  </v-radio-group>
+                </v-col>
+
+                <v-col cols="12" md="6">
+                  <v-text-field v-model="form.size" label="Height (cm)" type="number" variant="outlined"
+                    density="comfortable" color="primary" min="100" max="250" :rules="[
+                      v => !!v || 'Height is required',
+                      v => (v && v >= 100 && v <= 250) || 'Height must be between 100 and 250 cm'
+                    ]" required></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="6">
+                  <v-text-field v-model="form.weight" label="Weight (kg)" type="number" variant="outlined"
+                    density="comfortable" color="primary" min="30" max="250" :rules="[
+                      v => !!v || 'Weight is required',
+                      v => (v && v >= 30 && v <= 250) || 'Weight must be between 30 and 250 kg'
+                    ]" required></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="6">
+                  <v-text-field v-model="form.years" label="Age" type="number" variant="outlined" density="comfortable"
+                    color="primary" min="15" max="100" :rules="[
+                      v => !!v || 'Age is required',
+                      v => (v && v >= 15 && v <= 100) || 'Age must be between 15 and 100 years'
+                    ]" required></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="6">
+                  <v-select v-model="form.activity" :items="activityLevels" item-title="text" item-value="value"
+                    label="Activity Level" variant="outlined" density="comfortable" color="primary"
+                    :rules="[v => !!v || 'Activity level is required']" required>
+                    <template v-slot:prepend-inner>
+                      <v-icon color="primary">mdi-run</v-icon>
+                    </template>
+                  </v-select>
+                </v-col>
+              </v-row>
+
+              <v-divider class="my-6"></v-divider>
+
+              <div class="d-flex justify-end">
+                <v-btn color="primary" size="large" type="submit" :loading="loading" min-width="200">
+                  <v-icon start>mdi-check</v-icon>
+                  Continue
+                </v-btn>
+              </div>
+            </v-form>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </section>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
-import { useUserStore } from '~/stores/userStore';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '~/stores/userStore';
 
 definePageMeta({
   layout: 'empty'
@@ -56,21 +102,28 @@ const form = ref({
 });
 
 const loading = ref(false);
-const items = ['Sedentary', 'Slightly active', 'Moderately active', 'Very active', 'Extremely active'];
+
+const activityLevels = [
+  { text: 'Sedentary (little or no exercise)', value: 'sedentaire' },
+  { text: 'Lightly active (light exercise 1-3 times/week)', value: 'legerement_actif' },
+  { text: 'Moderately active (moderate exercise 3-5 times/week)', value: 'moderement_actif' },
+  { text: 'Very active (intense exercise 6-7 times/week)', value: 'tres_actif' },
+  { text: 'Extremely active (very intense exercise, physical work)', value: 'extremement_actif' }
+];
 
 const calculateBaseCalories = ({ sexe, size, years, weight }) => {
-  return sexe === 'Men'
+  return sexe === 'homme'
     ? 10 * weight + 6.25 * size - 5 * years + 5
     : 10 * weight + 6.25 * size - 5 * years - 161;
 };
 
 const adjustCaloriesForActivity = (baseCalories, activity) => {
   const activityFactors = {
-    Sedentary: 1.2,
-    'Slightly active': 1.375,
-    'Moderately active': 1.55,
-    'Very active': 1.725,
-    'Extremely active': 1.9
+    'sedentaire': 1.2,
+    'legerement_actif': 1.375,
+    'moderement_actif': 1.55,
+    'tres_actif': 1.725,
+    'extremement_actif': 1.9
   };
   return baseCalories * (activityFactors[activity] || 1.2);
 };
@@ -81,13 +134,13 @@ const userData = async () => {
     const { sexe, size, years, weight, activity } = form.value;
 
     if (!sexe || !size || !years || !weight || !activity) {
-      throw new Error('Tous les champs doivent être remplis.');
+      throw new Error('All fields must be filled.');
     }
 
     const baseCalories = calculateBaseCalories(form.value);
     const totalCalories = adjustCaloriesForActivity(baseCalories, activity);
 
-    let macros = {
+    const macros = {
       proteins: Math.round((totalCalories * 0.30) / 4),
       carbs: Math.round((totalCalories * 0.50) / 4),
       lipids: Math.round((totalCalories * 0.20) / 9),
@@ -100,41 +153,41 @@ const userData = async () => {
     };
 
     userStore.updateForm(dataToSave);
-
     await userStore.saveNutrition();
-
     router.push('/overview');
   } catch (err) {
-    console.error('Erreur:', err.message, err.stack);
+    console.error('Error:', err.message);
   } finally {
     loading.value = false;
   }
 };
 </script>
 
-
-<style>
-.intro-img {
-  position: relative;
-  background: url('/images/city.jpg') center/cover no-repeat;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+<style scoped>
+.health-form-page {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
 }
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+.health-card {
+  background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.v-field) {
+  border-radius: 8px !important;
+}
+
+:deep(.v-btn) {
+  border-radius: 8px;
+}
+
+:deep(.v-radio-group .v-radio) {
+  margin-right: 1rem;
+}
+
+.text-white {
+  color: #ffffff !important;
 }
 </style>

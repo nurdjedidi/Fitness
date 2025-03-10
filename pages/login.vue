@@ -1,28 +1,56 @@
 <template>
-  <section class="intro-img">
-    <div class="overlay"></div>
-    <v-container class="d-flex justify-center align-center" style="height: 100vh;">
-      <v-card class="glass-card pa-12 rounded-lg shadow-sm" elevation="3" max-width="600" color="transparent">
-        <v-card-title class="text-h5 font-weight-bold text-center mb-4">Sign In to Your Account</v-card-title>
-        <v-form class="d-flex flex-column" @submit.prevent="handleSignin">
-          <v-text-field v-model="form.email" label="Email" type="email" name="email" variant="outlined"
-            density="comfortable" color="primary" required></v-text-field>
-          <v-text-field v-model="form.password" :type="showPassword ? 'text' : 'password'" label="Password"
-            type="password" name="password" variant="outlined" density="comfortable" color="primary" required>
-            <template v-slot:append-inner>
-              <v-icon @click="togglePasswordVisibility" class="cursor-pointer">
-                {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
-              </v-icon>
-            </template>
-          </v-text-field>
-          <NuxtLink class="signup-link mb-6" to="/signup">Don't have an account?</NuxtLink>
-          <v-btn class="submit-btn" type="submit" :loading="loading" aria-label="Sign In">
-            Sign In
-          </v-btn>
-        </v-form>
-      </v-card>
-    </v-container>
-  </section>
+  <v-app>
+    <section class="auth-page bg-gradient">
+      <div class="auth-container">
+        <div class="auth-content">
+          <div class="auth-left">
+            <div class="auth-overlay"></div>
+            <div class="auth-text">
+              <h1 class="text-h3 font-weight-bold text-light mb-4">Bienvenue</h1>
+              <p class="text-h6 text-light">Votre parcours vers une meilleure santé continue ici.</p>
+            </div>
+          </div>
+
+          <div class="auth-right">
+            <v-card class="auth-card pa-8" elevation="2" max-width="400">
+              <v-card-title class="text-h5 font-weight-bold mb-6 text-high-contrast">Connexion à votre
+                compte</v-card-title>
+
+              <v-form @submit.prevent="handleSignin">
+                <v-text-field v-model="form.email" label="Email" type="email" variant="outlined" density="comfortable"
+                  color="primary" class="mb-4"
+                  :rules="[v => !!v || 'L\'email est requis', v => /.+@.+\..+/.test(v) || 'L\'email doit être valide']"
+                  required></v-text-field>
+
+                <v-text-field v-model="form.password" :type="showPassword ? 'text' : 'password'" label="Mot de passe"
+                  variant="outlined" density="comfortable" color="primary" class="mb-2"
+                  :rules="[v => !!v || 'Le mot de passe est requis']" required>
+                  <template v-slot:append-inner>
+                    <v-icon @click="togglePasswordVisibility" :icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                      class="cursor-pointer"></v-icon>
+                  </template>
+                </v-text-field>
+
+                <div class="d-flex justify-space-between align-center mb-6">
+                  <NuxtLink to="/signup" class="text-decoration-none text-medium-contrast">
+                    Pas encore de compte ?
+                  </NuxtLink>
+                  <NuxtLink to="/forgot-password" class="text-decoration-none text-medium-contrast">
+                    Mot de passe oublié ?
+                  </NuxtLink>
+                </div>
+
+                <v-btn block color="primary" size="large" type="submit" :loading="loading"
+                  class="text-none text-subtitle-1 text-light" elevation="2">
+                  Se connecter
+                </v-btn>
+              </v-form>
+            </v-card>
+          </div>
+        </div>
+      </div>
+    </section>
+  </v-app>
 </template>
 
 <script setup>
@@ -45,63 +73,143 @@ const loading = ref(false);
 const showPassword = ref(false);
 
 const handleSignin = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    await userStore.signin(form.value.email, form.value.password)
-    router.push('/overview')
+    await userStore.signin(form.value.email, form.value.password);
+    router.push('/overview');
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
+    // Afficher l'erreur à l'utilisateur
+    alert(err.message);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 </script>
 
-<style>
-.intro-img {
+<style scoped>
+.auth-page {
+  min-height: 100vh;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--spacing-xl);
+}
+
+.auth-content {
+  display: flex;
+  max-width: 1000px;
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-left {
   position: relative;
-  background: url('images/city.jpg') center/cover no-repeat;
-  height: 100vh;
+  flex: 1;
+  background: url('/images/fitness-bg.jpg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  padding: var(--spacing-xl);
 }
 
-.overlay {
+.auth-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, rgba(var(--primary-color), 0.9) 0%, rgba(var(--secondary-color), 0.9) 100%);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.auth-text {
+  position: relative;
+  z-index: 1;
+  text-align: left;
 }
 
-.submit-btn {
-  background-color: #007bff;
-  color: white;
-  transition: background-color 0.3s;
+.auth-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
 }
 
-.submit-btn:hover {
-  background-color: #0056b3;
+.auth-card {
+  width: 100%;
+  background: transparent !important;
 }
 
-.signup-link {
-  text-decoration: none;
-  color: blue;
+:deep(.v-field) {
+  border-radius: var(--border-radius-md) !important;
 }
 
-.signup-link:hover {
-  color: #7D3C98;
+:deep(.v-btn) {
+  font-weight: 600 !important;
+}
+
+:deep(.v-field__input) {
+  font-size: 1rem !important;
+  color: var(--text-primary) !important;
+}
+
+:deep(.v-label) {
+  font-size: 0.95rem !important;
+  color: var(--text-secondary) !important;
+}
+
+@media (max-width: 959px) {
+  .auth-content {
+    flex-direction: column;
+  }
+
+  .auth-left {
+    padding: var(--spacing-lg);
+    min-height: 200px;
+  }
+
+  .auth-text {
+    text-align: center;
+  }
+
+  .auth-text h1 {
+    font-size: 1.75rem !important;
+  }
+
+  .auth-text p {
+    font-size: 1rem !important;
+  }
+
+  .auth-right {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .auth-content {
+    background: var(--bg-card);
+  }
+
+  .auth-overlay {
+    opacity: 0.95;
+  }
+
+  :deep(.v-field__input) {
+    color: var(--text-light) !important;
+  }
+
+  :deep(.v-label) {
+    color: var(--text-secondary) !important;
+  }
 }
 </style>

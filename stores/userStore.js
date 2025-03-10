@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useNuxtApp } from '#app'
 export const useUserStore = defineStore('user', {
   state: () => ({
     form: {
@@ -76,25 +75,26 @@ export const useUserStore = defineStore('user', {
 
     // Processus d'inscription
 
-    async signup(email, password) {
+    async signup({ name, email, password }) {
       try {
         const response = await $fetch('/api/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: { email, password },
+          body: { name, email, password },
         })
 
         if (!response.success) {
-          throw new Error(response.error || 'Signup échoué')
+          throw new Error(response.error || 'Inscription échouée')
         }
 
         this.setToken(response.token)
         await this.loadNutrition()
+        return response
       } catch (err) {
         console.error('Erreur signup :', err)
-        throw err
+        throw new Error(err.message || 'Une erreur est survenue l\'inscription')
       }
     },
 
@@ -111,14 +111,15 @@ export const useUserStore = defineStore('user', {
         })
 
         if (!response.success) {
-          throw new Error(response.error || 'Signin échoué')
+          throw new Error(response.error || 'Connexion échouée')
         }
 
         this.setToken(response.token)
         await this.loadNutrition()
+        return response
       } catch (err) {
-        console.error('Erreur signup :', err)
-        throw err
+        console.error('Erreur signin :', err)
+        throw new Error(err.message || 'Une erreur est survenue lors de la connexion')
       }
     },
 
